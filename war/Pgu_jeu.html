@@ -1,40 +1,42 @@
 <!doctype html>
-<!-- The DOCTYPE declaration above will set the     -->
-<!-- browser's rendering engine into                -->
-<!-- "Standards Mode". Replacing this declaration   -->
-<!-- with a "Quirks Mode" doctype is not supported. -->
-
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
-    <!--                                                               -->
-    <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--                                                               -->
-    <link type="text/css" rel="stylesheet" href="Pgu_jeu.css">
-
-    <!--                                           -->
-    <!-- Any title is fine                         -->
-    <!--                                           -->
-    <title>Web Application Starter Project</title>
+    <title>Language games</title>
     
-    <!--                                           -->
-    <!-- This script loads your compiled module.   -->
-    <!-- If you add any GWT meta tags, they must   -->
-    <!-- be added before this line.                -->
-    <!--                                           -->
-    <script type="text/javascript" language="javascript" src="pgu_jeu/pgu_jeu.nocache.js"></script>
+<!--     <link type="text/css" rel="stylesheet" href="Pgu_jeu.css"> -->
+<!--     <script type="text/javascript" language="javascript" src="pgu_jeu/pgu_jeu.nocache.js"></script> -->
+
+    <style>
+    
+      #guess_symbol {
+        font-size: 72px;
+      }
+    
+      .sym {
+        font-size: 48px;
+      }
+      .left_f {
+        float: left;
+      }
+      .left_space {
+        margin-left: 50px;
+      }
+    
+      .symbol {
+        float: left;
+      }
+    
+      .clearfix {
+        clear: both;
+      }
+    
+    </style>
+
   </head>
-
-  <!--                                           -->
-  <!-- The body can have arbitrary html, or      -->
-  <!-- you can leave the body empty if you want  -->
-  <!-- to create a completely dynamic UI.        -->
-  <!--                                           -->
   <body>
-
     <!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+    <!-- <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe> -->
     
     <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
     <noscript>
@@ -43,20 +45,353 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    
+<!-- ------------------------------------------------------------------------------------ -->
+<!-- ------------------------------------------------------------------------------------ -->
+<!-- ------------------------------------------------------------------------------------ -->
 
-    <h1>Web Application Starter Project</h1>
-
-    <table align="center">
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Please enter your name:</td>        
-      </tr>
-      <tr>
-        <td id="nameFieldContainer"></td>
-        <td id="sendButtonContainer"></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
-      </tr>
+    
+    <p>
+      <input type="radio" id="game_hiragana" name="game" value="hiragana" checked>Hiragana</input>
+      <input type="radio" id="game_katakana" name="game" value="katakana">Katakana</input>
+      <input type="button" value="Play" onclick="play_game();"></input>
+    </p>
+    
+    <p></p>
+    
+    <p>
+     <div id="guess_symbol"></div>
+     <input id="guess_result" type="text" onkeyup="check_result(this);"></input>
+    </p>
+    
+    <p></p>
+    
+    <p>
+      <div id="end_of_game" style="visibility:hidden">
+        <div>Done!</div>
+        <div id="elapsed_time"></div>
+      </div>
+    </p>
+    
+    <p></p>
+    
+    <table class="left_f">
+    
+    <tr><td class="sym">&#12354;</td><td class="sym">&#12356;</td><td class="sym">&#12358;</td><td class="sym">&#12360;</td><td class="sym">&#12362;</td></tr>
+    <tr><td>a</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
+    
+    <tr><td class="sym">&#12363;</td><td class="sym">&#12365;</td><td class="sym">&#12367;</td><td class="sym">&#12369;</td><td class="sym">&#12371;</td></tr>
+    <tr><td>ka</td><td>ki</td><td>ku</td><td>ke</td><td>ko</td></tr>
+    
+    <tr><td class="sym">&#12373;</td><td class="sym">&#12375;</td><td class="sym">&#12377;</td><td class="sym">&#12379;</td><td class="sym">&#12381;</td></tr>
+    <tr><td>sa</td><td>shi</td><td>su</td><td>se</td><td>so</td></tr>
+    
+    <tr><td class="sym">&#12383;</td><td class="sym">&#12385;</td><td class="sym">&#12388;</td><td class="sym">&#12390;</td><td class="sym">&#12392;</td></tr>
+    <tr><td>ta</td><td>chi</td><td>tsu</td><td>te</td><td>to</td></tr>
+    
+    <tr><td class="sym">&#12394;</td><td class="sym">&#12395;</td><td class="sym">&#12396;</td><td class="sym">&#12397;</td><td class="sym">&#12398;</td></tr>
+    <tr><td>na</td><td>ni</td><td>nu</td><td>ne</td><td>no</td></tr>
+    
+    <tr><td class="sym">&#12399;</td><td class="sym">&#12402;</td><td class="sym">&#12405;</td><td class="sym">&#12408;</td><td class="sym">&#12411;</td></tr>
+    <tr><td>ha</td><td>hi</td><td>fu</td><td>he</td><td>ho</td></tr>
+    
+    <tr><td class="sym">&#12414;</td><td class="sym">&#12415;</td><td class="sym">&#12416;</td><td class="sym">&#12417;</td><td class="sym">&#12418;</td></tr>
+    <tr><td>ma</td><td>mi</td><td>mu</td><td>me</td><td>mo</td></tr>
+    
+    <tr><td class="sym">&#12420;</td><td></td><td class="sym">&#12422;</td><td></td><td class="sym">&#12424;</td></tr>
+    <tr><td>ya</td><td>i</td><td>yu</td><td>e</td><td>yo</td></tr>
+    
+    <tr><td class="sym">&#12425;</td><td class="sym">&#12426;</td><td class="sym">&#12427;</td><td class="sym">&#12428;</td><td class="sym">&#12429;</td></tr>
+    <tr><td>ra</td><td>ri</td><td>ru</td><td>re</td><td>ro</td></tr>
+    
+    <tr><td class="sym">&#12431;</td><td></td><td></td><td></td><td class="sym">&#12434;</td></tr>
+    <tr><td>wa</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
+    
+    <tr><td class="sym">&#12435;</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>n</td><td></td><td></td><td></td><td></td></tr>
+    
     </table>
+    
+    <table class="left_f left_space">
+    
+    <tr><td class="sym">&#12450;</td><td class="sym">&#12452;</td><td class="sym">&#12454;</td><td class="sym">&#12456;</td><td class="sym">&#12458;</td></tr>
+    <tr><td>a</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
+    
+    <tr><td class="sym">&#12459;</td><td class="sym">&#12461;</td><td class="sym">&#12463;</td><td class="sym">&#12465;</td><td class="sym">&#12467;</td></tr>
+    <tr><td>ka</td><td>ki</td><td>ku</td><td>ke</td><td>ko</td></tr>
+    
+    <tr><td class="sym">&#12469;</td><td class="sym">&#12471;</td><td class="sym">&#12473;</td><td class="sym">&#12475;</td><td class="sym">&#12477;</td></tr>
+    <tr><td>sa</td><td>shi</td><td>su</td><td>se</td><td>so</td></tr>
+    
+    <tr><td class="sym">&#12479;</td><td class="sym">&#12481;</td><td class="sym">&#12483;</td><td class="sym">&#12486;</td><td class="sym">&#12488;</td></tr>
+    <tr><td>ta</td><td>chi</td><td>tsu</td><td>te</td><td>to</td></tr>
+    
+    <tr><td class="sym">&#12490;</td><td class="sym">&#12491;</td><td class="sym">&#12492;</td><td class="sym">&#12493;</td><td class="sym">&#12494;</td></tr>
+    <tr><td>na</td><td>ni</td><td>nu</td><td>ne</td><td>no</td></tr>
+    
+    <tr><td class="sym">&#12495;</td><td class="sym">&#12498;</td><td class="sym">&#12501;</td><td class="sym">&#12504;</td><td class="sym">&#12507;</td></tr>
+    <tr><td>ha</td><td>hi</td><td>fu</td><td>he</td><td>ho</td></tr>
+    
+    <tr><td class="sym">&#12510;</td><td class="sym">&#12511;</td><td class="sym">&#12512;</td><td class="sym">&#12513;</td><td class="sym">&#12514;</td></tr>
+    <tr><td>ma</td><td>mi</td><td>mu</td><td>me</td><td>mo</td></tr>
+    
+    <tr><td class="sym">&#12516;</td><td></td><td class="sym">&#12518;</td><td></td><td class="sym">&#12520;</td></tr>
+    <tr><td>ya</td><td>i</td><td>yu</td><td>e</td><td>yo</td></tr>
+    
+    <tr><td class="sym">&#12521;</td><td class="sym">&#12522;</td><td class="sym">&#12523;</td><td class="sym">&#12524;</td><td class="sym">&#12525;</td></tr>
+    <tr><td>ra</td><td>ri</td><td>ru</td><td>re</td><td>ro</td></tr>
+    
+    <tr><td class="sym">&#12527;</td><td></td><td></td><td></td><td class="sym">&#12530;</td></tr>
+    <tr><td>wa</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
+    
+    <tr><td class="sym">&#12531;</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>n</td><td></td><td></td><td></td><td></td></tr>
+    
+    </table>
+    
+    <div class="clearfix"></div>
+    <p></p>
+    <p></p>
+    
+    <script>
+    
+    var hiragana = {};
+    hiragana.a = '12354';
+    hiragana.i = '12356';
+    hiragana.u = '12358';
+    hiragana.e = '12360';
+    hiragana.o = '12362';
+    
+    hiragana.ka = '12363';
+    hiragana.ki = '12365';
+    hiragana.ku = '12367';
+    hiragana.ke = '12369';
+    hiragana.ko = '12371';
+    
+    hiragana.sa = '12373';
+    hiragana.shi = '12375';
+    hiragana.su = '12377';
+    hiragana.se = '12379';
+    hiragana.so = '12381';
+    
+    hiragana.ta = '12383';
+    hiragana.chi = '12385';
+    hiragana.tsu = '12388';
+    hiragana.te = '12390';
+    hiragana.to = '12392';
+    
+    hiragana.na = '12394';
+    hiragana.ni = '12395';
+    hiragana.nu = '12396';
+    hiragana.ne = '12397';
+    hiragana.no = '12398';
+    
+    hiragana.ha = '12399';
+    hiragana.hi = '12402';
+    hiragana.fu = '12405';
+    hiragana.he = '12408';
+    hiragana.ho = '12411';
+    
+    hiragana.ma = '12414';
+    hiragana.mi = '12415';
+    hiragana.mu = '12416';
+    hiragana.me = '12417';
+    hiragana.mo = '12418';
+    
+    hiragana.ya = '12420';
+    hiragana.yu = '12422';
+    hiragana.yo = '12424';
+    
+    hiragana.ra = '12425';
+    hiragana.ri = '12426';
+    hiragana.ru = '12427';
+    hiragana.re = '12428';
+    hiragana.ro = '12429';
+    
+    hiragana.wa = '12431';
+    hiragana.wo = '12434';
+    
+    hiragana.n = '12435';
+    
+    var katakana = {};
+    katakana.a = '12450';
+    katakana.i = '12452';
+    katakana.u = '12454';
+    katakana.e = '12456';
+    katakana.o = '12458';
+    
+    katakana.ka = '12459';
+    katakana.ki = '12461';
+    katakana.ku = '12463';
+    katakana.ke = '12465';
+    katakana.ko = '12467';
+    
+    katakana.sa = '12469';
+    katakana.shi = '12471';
+    katakana.su = '12473';
+    katakana.se = '12475';
+    katakana.so = '12477';
+    
+    katakana.ta = '12479';
+    katakana.chi = '12481';
+    katakana.tsu = '12483';
+    katakana.te = '12486';
+    katakana.to = '12488';
+    
+    katakana.na = '12490';
+    katakana.ni = '12491';
+    katakana.nu = '12492';
+    katakana.ne = '12493';
+    katakana.no = '12494';
+    
+    katakana.ha = '12495';
+    katakana.hi = '12498';
+    katakana.fu = '12501';
+    katakana.he = '12504';
+    katakana.ho = '12507';
+    
+    katakana.ma = '12510';
+    katakana.mi = '12511';
+    katakana.mu = '12512';
+    katakana.me = '12513';
+    katakana.mo = '12514';
+    
+    katakana.ya = '12516';
+    katakana.yu = '12518';
+    katakana.yo = '12520';
+    
+    katakana.ra = '12521';
+    katakana.ri = '12522';
+    katakana.ru = '12523';
+    katakana.re = '12524';
+    katakana.ro = '12525';
+    
+    katakana.wa = '12527';
+    katakana.wo = '12530';
+    
+    katakana.n = '12531';
+    
+    var symbols = [];
+    var letters = [];
+    
+    var current_idx = -1;
+    var current_let = '';
+    var current_sym = '';
+    var current_game = {};
+    
+    var game_start = new Date();
+    
+    var msecPerMinute = 1000 * 60;
+    var msecPerHour = msecPerMinute * 60;
+    var msecPerDay = msecPerHour * 24;
+    
+    function check_result(e) {
+      var input = document.getElementById(e.id);
+      var result = input.value;
+      console.log(result);
+    
+      if (result === current_let) {
+        input.value = '';
+        play_next_symbol();
+      }
+    }
+    
+    function finish_game() {
+      var game_end = Date.now();
+      var interval = game_end - game_start;
+    
+      var days = Math.floor(interval / msecPerDay);
+      interval = interval - (days * msecPerDay);
+    
+      var hours = Math.floor(interval / msecPerHour);
+      interval = interval - (hours * msecPerHour);
+    
+      var minutes = Math.floor(interval / msecPerMinute);
+      interval = interval - (minutes * msecPerMinute);
+    
+      var seconds = Math.floor(interval / 1000);
+    
+      var fmt_time = '';
+    
+      if (days !== 0) { fmt_time += days + ' days '; }
+      if (hours !== 0) { fmt_time += hours + ' hours '; }
+      if (minutes !== 0) { fmt_time += minutes + ' minutes '; }
+      if (seconds !== 0) { fmt_time += seconds + ' seconds '; }
+    
+      document.getElementById('elapsed_time').innerHTML = fmt_time;
+      document.getElementById('end_of_game').style.visibility='visible';
+    }
+    
+    function play_next_symbol() {
+      remove_current_symbol();
+    
+      if (letters.length === 0) {
+        finish_game();
+    
+      } else {    
+        choose_next_symbol();
+        show_next_symbol();
+      }
+    }
+    
+    function show_next_symbol() {
+      document.getElementById('guess_symbol').innerHTML = '&#' + current_sym + ';';
+    }
+    
+    function choose_next_symbol() {
+      current_idx = Math.floor(Math.random() * symbols.length);
+    
+      current_let = letters[current_idx];
+      current_sym = symbols[current_idx];
+    }
+    
+    function remove_current_symbol() {
+      letters.splice(current_idx, 1);
+      symbols.splice(current_idx, 1);
+    }
+    
+    function copy_game_to_arrays() {
+      symbols = [];
+      letters = [];
+    
+      for (letter in current_game) {
+        if (current_game.hasOwnProperty(letter)) {
+          letters.push(letter);
+          symbols.push(current_game[letter]);
+        }
+      }
+    
+    }
+    
+    function get_selected_game() {
+      if (document.getElementById('game_hiragana').checked) {
+        return hiragana;
+    
+      } else if (document.getElementById('game_katakana').checked) {
+        return katakana;
+    
+      } else {
+        throw { msg: 'Unknown game' };
+      }
+    }
+    
+    function play_game() {
+    
+      current_game = get_selected_game();
+      document.getElementById('end_of_game').style.visibility='hidden';
+      document.getElementById('elapsed_time').innerHTML='';
+      document.getElementById('guess_result').focus();
+    
+      copy_game_to_arrays();
+      choose_next_symbol();
+      show_next_symbol();
+    
+      game_start = Date.now();
+    }
+    
+    play_game();
+    
+    </script>
+
   </body>
 </html>

@@ -8,6 +8,11 @@
 <!--     <script type="text/javascript" language="javascript" src="pgu_jeu/pgu_jeu.nocache.js"></script> -->
 
     <style>
+
+      body {
+        padding-top: 10px;
+        padding-left: 20px;
+      }
     
       #guess_symbol {
         font-size: 72px;
@@ -54,6 +59,7 @@
     <p>
       <input type="radio" id="game_hiragana" name="game" value="hiragana" checked>Hiragana</input>
       <input type="radio" id="game_katakana" name="game" value="katakana">Katakana</input>
+      <input type="radio" id="game_arabic"   name="game" value="arabic">Arabic</input>
       <input type="button" value="Play" onclick="play_game();"></input>
     </p>
     
@@ -148,128 +154,71 @@
     <tr><td>n</td><td></td><td></td><td></td><td></td></tr>
     
     </table>
+
+    <table class="left_f left_space">
     
+    <tr><td class="sym">&#65155;</td><td class="sym">&#65167;</td><td class="sym">&#65173;</td><td class="sym">&#65177;</td><td class="sym">&#65181;</td></tr>
+    <tr><td>alif</td><td>ba</td><td>ta</td><td>tha</td><td>jim</td></tr>
+    
+    <tr><td class="sym">&#65185;</td><td class="sym">&#65189;</td><td class="sym">&#65193;</td><td class="sym">&#65195;</td><td class="sym">&#65197;</td></tr>
+    <tr><td>ha</td><td>kha</td><td>dal</td><td>dhal</td><td>ra</td></tr>
+    
+    <tr><td class="sym">&#65199;</td><td class="sym">&#65201;</td><td class="sym">&#65205;</td><td class="sym">&#65209;</td><td class="sym">&#65213;</td></tr>
+    <tr><td>zay</td><td>sin</td><td>shin</td><td>sad</td><td>dad</td></tr>
+    
+    <tr><td class="sym">&#65217;</td><td class="sym">&#65221;</td><td class="sym">&#65225;</td><td class="sym">&#65229;</td><td class="sym">&#65233;</td></tr>
+    <tr><td>ta</td><td>za</td><td>ayn</td><td>ghayn</td><td>fa</td></tr>
+    
+    <tr><td class="sym">&#65237;</td><td class="sym">&#65241;</td><td class="sym">&#65245;</td><td class="sym">&#65249;</td><td class="sym">&#65253;</td></tr>
+    <tr><td>qaf</td><td>kaf</td><td>lam</td><td>mim</td><td>nun</td></tr>
+    
+    <tr><td class="sym">&#65257;</td><td class="sym">&#65261;</td><td class="sym">&#65265;</td><td class="sym"></td><td class="sym"></td></tr>
+    <tr><td>ha</td><td>waw</td><td>ya</td><td></td><td></td></tr>
+    
+    </table>
+
     <div class="clearfix"></div>
     <p></p>
     <p></p>
     
     <script>
+
+    var hiragana = // 
+	[    'a', '12354',    'i', '12356',    'u', '12358',    'e', '12360',    'o', '12362'
+	 ,  'ka', '12363',   'ki', '12365',   'ku', '12367',   'ke', '12369',   'ko', '12371'
+	 ,  'sa', '12373',  'shi', '12375',   'su', '12377',   'se', '12379',   'so', '12381'
+	 ,  'ta', '12383',  'chi', '12385',  'tsu', '12388',   'te', '12390',   'to', '12392'
+	 ,  'na', '12394',   'ni', '12395',   'nu', '12396',   'ne', '12397',   'no', '12398'
+	 ,  'ha', '12399',   'hi', '12402',   'fu', '12405',   'he', '12408',   'ho', '12411'
+	 ,  'ma', '12414',   'mi', '12415',   'mu', '12416',   'me', '12417',   'mo', '12418'
+	 ,  'ya', '12420',                    'yu', '12422',                    'yo', '12424'
+	 ,  'ra', '12425',   'ri', '12426',   'ru', '12427',   're', '12428',   'ro', '12429'
+	 ,  'wa', '12431',                                                      'wo', '12434'
+	 ,   'n', '12435'
+    ];
     
-    var hiragana = {};
-    hiragana.a = '12354';
-    hiragana.i = '12356';
-    hiragana.u = '12358';
-    hiragana.e = '12360';
-    hiragana.o = '12362';
+    var katakana = // 
+	[    'a', '12450',    'i', '12452',    'u', '12454',    'e', '12456',    'o', '12458'
+	 ,  'ka', '12459',   'ki', '12461',   'ku', '12463',   'ke', '12465',   'ko', '12467'
+	 ,  'sa', '12469',  'shi', '12471',   'su', '12473',   'se', '12475',   'so', '12477'
+	 ,  'ta', '12479',  'chi', '12481',  'tsu', '12483',   'te', '12486',   'to', '12488'
+	 ,  'na', '12490',   'ni', '12491',   'nu', '12492',   'ne', '12493',   'no', '12494'
+	 ,  'ha', '12495',   'hi', '12498',   'fu', '12501',   'he', '12504',   'ho', '12507'
+	 ,  'ma', '12510',   'mi', '12511',   'mu', '12512',   'me', '12513',   'mo', '12514'
+	 ,  'ya', '12516',                    'yu', '12518',                    'yo', '12520'
+	 ,  'ra', '12521',   'ri', '12522',   'ru', '12523',   're', '12524',   'ro', '12525'
+	 ,  'wa', '12527',                                                      'wo', '12530'
+	 ,   'n', '12531'
+    ];
     
-    hiragana.ka = '12363';
-    hiragana.ki = '12365';
-    hiragana.ku = '12367';
-    hiragana.ke = '12369';
-    hiragana.ko = '12371';
-    
-    hiragana.sa = '12373';
-    hiragana.shi = '12375';
-    hiragana.su = '12377';
-    hiragana.se = '12379';
-    hiragana.so = '12381';
-    
-    hiragana.ta = '12383';
-    hiragana.chi = '12385';
-    hiragana.tsu = '12388';
-    hiragana.te = '12390';
-    hiragana.to = '12392';
-    
-    hiragana.na = '12394';
-    hiragana.ni = '12395';
-    hiragana.nu = '12396';
-    hiragana.ne = '12397';
-    hiragana.no = '12398';
-    
-    hiragana.ha = '12399';
-    hiragana.hi = '12402';
-    hiragana.fu = '12405';
-    hiragana.he = '12408';
-    hiragana.ho = '12411';
-    
-    hiragana.ma = '12414';
-    hiragana.mi = '12415';
-    hiragana.mu = '12416';
-    hiragana.me = '12417';
-    hiragana.mo = '12418';
-    
-    hiragana.ya = '12420';
-    hiragana.yu = '12422';
-    hiragana.yo = '12424';
-    
-    hiragana.ra = '12425';
-    hiragana.ri = '12426';
-    hiragana.ru = '12427';
-    hiragana.re = '12428';
-    hiragana.ro = '12429';
-    
-    hiragana.wa = '12431';
-    hiragana.wo = '12434';
-    
-    hiragana.n = '12435';
-    
-    var katakana = {};
-    katakana.a = '12450';
-    katakana.i = '12452';
-    katakana.u = '12454';
-    katakana.e = '12456';
-    katakana.o = '12458';
-    
-    katakana.ka = '12459';
-    katakana.ki = '12461';
-    katakana.ku = '12463';
-    katakana.ke = '12465';
-    katakana.ko = '12467';
-    
-    katakana.sa = '12469';
-    katakana.shi = '12471';
-    katakana.su = '12473';
-    katakana.se = '12475';
-    katakana.so = '12477';
-    
-    katakana.ta = '12479';
-    katakana.chi = '12481';
-    katakana.tsu = '12483';
-    katakana.te = '12486';
-    katakana.to = '12488';
-    
-    katakana.na = '12490';
-    katakana.ni = '12491';
-    katakana.nu = '12492';
-    katakana.ne = '12493';
-    katakana.no = '12494';
-    
-    katakana.ha = '12495';
-    katakana.hi = '12498';
-    katakana.fu = '12501';
-    katakana.he = '12504';
-    katakana.ho = '12507';
-    
-    katakana.ma = '12510';
-    katakana.mi = '12511';
-    katakana.mu = '12512';
-    katakana.me = '12513';
-    katakana.mo = '12514';
-    
-    katakana.ya = '12516';
-    katakana.yu = '12518';
-    katakana.yo = '12520';
-    
-    katakana.ra = '12521';
-    katakana.ri = '12522';
-    katakana.ru = '12523';
-    katakana.re = '12524';
-    katakana.ro = '12525';
-    
-    katakana.wa = '12527';
-    katakana.wo = '12530';
-    
-    katakana.n = '12531';
+    var arabic = //
+    [   'alif', '65155',  'ba', '65167',   'ta', '65173', 'tha', '65177', 'jim', '65181', 
+          'ha', '65185', 'kha', '65189',  'dal', '65193', 'dhal', '65195', 'ra', '65197',
+         'zay', '65199', 'sin', '65201', 'shin', '65205', 'sad', '65209', 'dad', '65213',
+          'ta', '65217',  'za', '65221',  'ayn', '65225', 'ghayn', '65229', 'fa', '65233', 
+         'qaf', '65237', 'kaf', '65241',  'lam', '65245', 'mim', '65249', 'nun', '65253', 
+          'ha', '65257', 'waw', '65261',   'ya', '65265'
+    ];
     
     var symbols = [];
     var letters = [];
@@ -277,7 +226,7 @@
     var current_idx = -1;
     var current_let = '';
     var current_sym = '';
-    var current_game = {};
+    var current_game = [];
     
     var game_start = new Date();
     
@@ -354,13 +303,10 @@
       symbols = [];
       letters = [];
     
-      for (letter in current_game) {
-        if (current_game.hasOwnProperty(letter)) {
-          letters.push(letter);
-          symbols.push(current_game[letter]);
-        }
+      for (var i = 0; i < current_game.length; i+=2) {
+    	letters.push(current_game[i]);
+    	symbols.push(current_game[i+1]);
       }
-    
     }
     
     function get_selected_game() {
@@ -369,6 +315,9 @@
     
       } else if (document.getElementById('game_katakana').checked) {
         return katakana;
+    
+      } else if (document.getElementById('game_arabic').checked) {
+        return arabic;
     
       } else {
         throw { msg: 'Unknown game' };

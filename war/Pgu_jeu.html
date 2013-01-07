@@ -60,6 +60,7 @@
       <input type="radio" id="game_hiragana" name="game" value="hiragana" checked>Hiragana</input>
       <input type="radio" id="game_katakana" name="game" value="katakana">Katakana</input>
       <input type="radio" id="game_arabic"   name="game" value="arabic">Arabic</input>
+      <input type="radio" id="game_russian"  name="game" value="russian">Russian</input>
       <input type="button" value="Play" onclick="play_game();"></input>
     </p>
     
@@ -176,6 +177,31 @@
     <tr><td>ha</td><td>waw</td><td>ya</td><td></td><td></td></tr>
     
     </table>
+    
+    <table class="left_f left_space">
+    
+    <tr><td class="sym">&#1040;</td><td class="sym">&#1041;</td><td class="sym">&#1042;</td><td class="sym">&#1043;</td><td class="sym">&#1044;</td></tr>
+    <tr><td>a</td><td>b</td><td>v</td><td>g</td><td>d</td></tr>
+    
+    <tr><td class="sym">&#1045;</td><td class="sym">&#1046;</td><td class="sym">&#1047;</td><td class="sym">&#1048;</td><td class="sym"></td></tr>
+    <tr><td>ie</td><td>j</td><td>z</td><td>i</td><td></td></tr>
+    
+    <tr><td class="sym">&#1049;</td><td class="sym">&#1050;</td><td class="sym">&#1051;</td><td class="sym">&#1052;</td><td class="sym">&#1053;</td></tr>
+    <tr><td>y</td><td>k</td><td>l</td><td>m</td><td>n</td></tr>
+    
+    <tr><td class="sym">&#1054;</td><td class="sym">&#1055;</td><td class="sym">&#1056;</td><td class="sym">&#1057;</td><td class="sym">&#1058;</td></tr>
+    <tr><td>o</td><td>p</td><td>r</td><td>s</td><td>t</td></tr>
+    
+    <tr><td class="sym">&#1059;</td><td class="sym">&#1060;</td><td class="sym">&#1061;</td><td class="sym">&#1062;</td><td class="sym">&#1063;</td></tr>
+    <tr><td>u</td><td>f</td><td>h</td><td>ts</td><td>ch</td></tr>
+    
+    <tr><td class="sym">&#1064;</td><td class="sym">&#1065;</td><td class="sym">&#1066;</td><td class="sym">&#1067;</td><td class="sym">&#1068;</td></tr>
+    <tr><td>sh</td><td>sh</td><td>-</td><td>i</td><td>-</td></tr>
+    
+    <tr><td class="sym">&#1069;</td><td class="sym">&#1070;</td><td class="sym">&#1071;</td><td class="sym"></td><td class="sym"></td></tr>
+    <tr><td>e</td><td>iu</td><td>ia</td><td></td><td></td></tr>
+    
+    </table>
 
     <div class="clearfix"></div>
     <p></p>
@@ -218,6 +244,16 @@
           'ta', '65217',  'za', '65221',  'ayn', '65225', 'ghayn', '65229', 'fa', '65233', 
          'qaf', '65237', 'kaf', '65241',  'lam', '65245', 'mim', '65249', 'nun', '65253', 
           'ha', '65257', 'waw', '65261',   'ya', '65265'
+    ];
+    
+    var russian = //
+    [  'a', '1040',  'b', '1041',  'v', '1042',  'g', '1043',  'd', '1044', 
+      'ie', '1045',  'j', '1046',  'z', '1047',  'i', '1048', 
+       'y', '1049',  'k', '1050',  'l', '1051',  'm', '1052',  'n', '1053', 
+       'o', '1054',  'p', '1055',  'r', '1056',  's', '1057',  't', '1058', 
+       'u', '1059',  'f', '1060',  'h', '1061', 'ts', '1062', 'ch', '1063', 
+      'sh', '1064', 'sh', '1065',  '-', '1066',  'i', '1067',  '-', '1068', 
+       'e', '1069', 'iu', '1070', 'ia', '1071'
     ];
     
     var symbols = [];
@@ -318,6 +354,9 @@
     
       } else if (document.getElementById('game_arabic').checked) {
         return arabic;
+        
+      } else if (document.getElementById('game_russian').checked) {
+        return russian;
     
       } else {
         throw { msg: 'Unknown game' };

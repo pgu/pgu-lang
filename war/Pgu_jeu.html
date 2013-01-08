@@ -15,7 +15,8 @@
       }
     
       #guess_symbol {
-        font-size: 72px;
+        font-size: 144px;
+        text-align: center;
       }
     
       .sym {
@@ -24,8 +25,10 @@
       .left_f {
         float: left;
       }
-      .left_space {
+      .symbols_table {
         margin-left: 50px;
+        margin-top: 30px;
+        background-color: whiteSmoke;
       }
     
       .symbol {
@@ -67,8 +70,14 @@
     <p></p>
     
     <p>
-     <div id="guess_symbol"></div>
-     <input id="guess_result" type="text" onkeyup="check_result(this);"></input>
+     <div style="width:200px">
+       <div id="guess_symbol"></div>
+       <div>
+           <div style="width:100px;margin: 0 auto;">
+             <input id="guess_result" style="width:100%" type="text" onkeyup="check_result(this);"></input>
+           </div>
+       </div>
+     </div>
     </p>
     
     <p></p>
@@ -82,7 +91,11 @@
     
     <p></p>
     
-    <table class="left_f">
+    <table id="current_table" class="symbols_table">
+     
+    <p></p>
+    
+    <table id="hiragana" class="left_f symbols_table">
     
     <tr><td class="sym">&#12354;</td><td class="sym">&#12356;</td><td class="sym">&#12358;</td><td class="sym">&#12360;</td><td class="sym">&#12362;</td></tr>
     <tr><td>a</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
@@ -119,7 +132,7 @@
     
     </table>
     
-    <table class="left_f left_space">
+    <table id="katakana" class="left_f symbols_table">
     
     <tr><td class="sym">&#12450;</td><td class="sym">&#12452;</td><td class="sym">&#12454;</td><td class="sym">&#12456;</td><td class="sym">&#12458;</td></tr>
     <tr><td>a</td><td>i</td><td>u</td><td>e</td><td>o</td></tr>
@@ -156,7 +169,7 @@
     
     </table>
 
-    <table class="left_f left_space">
+    <table id="arabic" class="left_f symbols_table">
     
     <tr><td class="sym">&#65165;</td><td class="sym">&#65167;</td><td class="sym">&#65173;</td><td class="sym">&#65177;</td><td class="sym">&#65181;</td></tr>
     <tr><td>a</td><td>b</td><td>t</td><td>th</td><td>j</td></tr>
@@ -178,7 +191,7 @@
     
     </table>
     
-    <table class="left_f left_space">
+    <table id="russian" class="left_f symbols_table">
     
     <tr><td class="sym">&#1040;</td><td class="sym">&#1041;</td><td class="sym">&#1042;</td><td class="sym">&#1043;</td><td class="sym">&#1044;</td></tr>
     <tr><td>a</td><td>b</td><td>v</td><td>g</td><td>d</td></tr>
@@ -256,6 +269,14 @@
        'e', '1069', 'iu', '1070', 'ia', '1071'
     ];
     
+    var games = 
+    {  
+       'hiragana': hiragana
+     , 'katakana': katakana
+     ,   'arabic': arabic
+     ,  'russian': russian
+    }
+    
     var symbols = [];
     var letters = [];
     
@@ -263,6 +284,8 @@
     var current_let = '';
     var current_sym = '';
     var current_game = [];
+    
+    var current_table = '';
     
     var game_start = new Date();
     
@@ -346,34 +369,41 @@
     }
     
     function get_selected_game() {
-      if (document.getElementById('game_hiragana').checked) {
-        return hiragana;
-    
-      } else if (document.getElementById('game_katakana').checked) {
-        return katakana;
-    
-      } else if (document.getElementById('game_arabic').checked) {
-        return arabic;
-        
-      } else if (document.getElementById('game_russian').checked) {
-        return russian;
-    
-      } else {
-        throw { msg: 'Unknown game' };
+    	
+      var radio_ids = [
+                         'game_hiragana', 'game_katakana'
+                       ,   'game_arabic',  'game_russian'
+                       ];
+      
+      for (var i = 0; i < radio_ids.length; i++) {
+    	  
+    	var radio_id = radio_ids[i];
+    	var radio = document.getElementById(radio_id);
+    	
+    	if (radio.checked) {
+          return radio.value;
+    	}
       }
+    	
+      throw { msg: 'No game selected or unknown game' };
     }
     
     function play_game() {
     
-      current_game = get_selected_game();
+      var game_value = get_selected_game();
+      
+      current_game = games[game_value];
+      
+      document.getElementById('current_table').innerHTML = document.getElementById(game_value).innerHTML;
+      
       document.getElementById('end_of_game').style.visibility='hidden';
       document.getElementById('elapsed_time').innerHTML='';
       document.getElementById('guess_result').focus();
-    
+      
       copy_game_to_arrays();
       choose_next_symbol();
       show_next_symbol();
-    
+      
       game_start = Date.now();
     }
     

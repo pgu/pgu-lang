@@ -68,6 +68,7 @@
       <input type="radio" id="game_katakana" name="game" value="katakana">Katakana</input>
       <input type="radio" id="game_arabic"   name="game" value="arabic">Arabic</input>
       <input type="radio" id="game_russian"  name="game" value="russian">Russian</input>
+      <input type="radio" id="game_korean"   name="game" value="korean">Korean</input>
       <input type="button" value="Play" onclick="play_game();"></input>
     </p>
     
@@ -219,6 +220,37 @@
     <tr><td class="letter">e</td><td class="letter">iu</td><td class="letter">ia</td><td class="letter"></td><td class="letter"></td></tr>
     
     </table>
+    
+    <table id="korean" class="left_f symbols_table">
+    
+    <tr><td class="sym">&#12593;</td><td class="sym">&#12596;</td><td class="sym">&#12599;</td><td class="sym">&#12601;</td><td class="sym">&#12609;</td></tr>
+    <tr><td class="letter">g k</td><td class="letter">n</td><td class="letter">d t</td><td class="letter">r l</td><td class="letter">m</td></tr>
+    
+    <tr><td class="sym">&#12610;</td><td class="sym">&#12613;</td><td class="sym">&#12615;</td><td class="sym">&#12616;</td><td class="sym">&#12618;</td></tr>
+    <tr><td class="letter">b p</td><td class="letter">s</td><td class="letter">ng</td><td class="letter">j</td><td class="letter">ch</td></tr>
+    
+    <tr><td class="sym">&#12619;</td><td class="sym">&#12620;</td><td class="sym">&#12621;</td><td class="sym">&#12622;</td><td class="sym"></td></tr>
+    <tr><td class="letter">k</td><td class="letter">t</td><td class="letter">p</td><td class="letter">h</td><td class="letter"></td></tr>
+    
+    <tr><td class="sym">&#12594;</td><td class="sym">&#12600;</td><td class="sym">&#12611;</td><td class="sym">&#12614;</td><td class="sym">&#12617;</td></tr>
+    <tr><td class="letter">kk</td><td class="letter">tt</td><td class="letter">pp</td><td class="letter">ss</td><td class="letter">jj</td></tr>
+    
+    <tr><td class="sym">&#12623;</td><td class="sym">&#12625;</td><td class="sym">&#12627;</td><td class="sym">&#12629;</td><td class="sym">&#12631;</td></tr>
+    <tr><td class="letter">a</td><td class="letter">ya</td><td class="letter">eo</td><td class="letter">yeo</td><td class="letter">o</td></tr>
+    
+    <tr><td class="sym">&#12635;</td><td class="sym">&#12636;</td><td class="sym">&#12640;</td><td class="sym">&#12641;</td><td class="sym">&#12643;</td></tr>
+    <tr><td class="letter">yo</td><td class="letter">u</td><td class="letter">yu</td><td class="letter">eu</td><td class="letter">i</td></tr>
+    
+    <tr><td class="sym">&#12624;</td><td class="sym">&#12626;</td><td class="sym">&#12628;</td><td class="sym">&#12630;</td><td class="sym">&#12632;</td></tr>
+    <tr><td class="letter">ae</td><td class="letter">yae</td><td class="letter">e</td><td class="letter">ye</td><td class="letter">wa</td></tr>
+    
+    <tr><td class="sym">&#12633;</td><td class="sym">&#12634;</td><td class="sym">&#12637;</td><td class="sym">&#12638;</td><td class="sym">&#12639;</td></tr>
+    <tr><td class="letter">wae</td><td class="letter">oe</td><td class="letter">wo</td><td class="letter">we</td><td class="letter">wi</td></tr>
+    
+    <tr><td class="sym">&#12642;</td><td class="sym"></td><td class="sym"></td><td class="sym"></td><td class="sym"></td></tr>
+    <tr><td class="letter">ui</td><td class="letter"></td><td class="letter"></td><td class="letter"></td><td class="letter"></td></tr>
+    
+    </table>
 
     <div class="clearfix"></div>
     <p></p>
@@ -272,6 +304,18 @@
       'sh', '1064', 'sh', '1065',  '-', '1066',  'i', '1067',   '-', '1068', 
        'e', '1069', 'iu', '1070', 'ia', '1071'
     ];
+
+    var korean = //
+    [  'g k', '12593',   'n', '12596', 'd t', '12599', 'r l', '12601',  'm', '12609'
+     , 'b p', '12610',   's', '12613',  'ng', '12615',   'j', '12616', 'ch', '12618'
+     ,   'k', '12619',   't', '12620',   'p', '12621',   'h', '12622'
+     ,  'kk', '12594',  'tt', '12600',  'pp', '12611',  'ss', '12614', 'jj', '12617'
+     ,   'a', '12623',  'ya', '12625',  'eo', '12627', 'yeo', '12629',  'o', '12631'
+     ,  'yo', '12635',   'u', '12636',  'yu', '12640',  'eu', '12641',  'i', '12643'
+     ,  'ae', '12624', 'yae', '12626',   'e', '12628',  'ye', '12630', 'wa', '12632'
+     , 'wae', '12633',  'oe', '12634',  'wo', '12637',  'we', '12638', 'wi', '12639'
+     ,  'ui', '12642'
+    ];
     
     var games = 
     {  
@@ -279,6 +323,7 @@
      , 'katakana': katakana
      ,   'arabic': arabic
      ,  'russian': russian
+     ,   'korean': korean
     }
     
     var symbols = [];
@@ -377,6 +422,7 @@
       var radio_ids = [
                          'game_hiragana', 'game_katakana'
                        ,   'game_arabic',  'game_russian'
+                       ,   'game_korean'
                        ];
       
       for (var i = 0; i < radio_ids.length; i++) {

@@ -18,6 +18,25 @@
         font-size: 144px;
         text-align: center;
       }
+      
+      #question_mark {
+        background-color: whiteSmoke;
+        color: lightgrey;
+        font-size: 24px;
+        cursor: pointer;
+        
+        width: 30px;
+        margin: 0 auto;
+        
+        /*border-radius*/
+        -webkit-border-radius:50px;
+           -moz-border-radius:50px;
+                border-radius:50px;
+      }
+      
+      #letter_solution {
+        font-size: 24px;
+      }
     
       .letter {
         text-align: center;
@@ -30,8 +49,8 @@
         float: left;
       }
       .symbols_table {
-        margin-left: 50px;
-        margin-top: 30px;
+        margin-left: 10px;
+        margin-top: 10px;
         background-color: whiteSmoke;
       }
     
@@ -82,7 +101,13 @@
      </div>
     
     <p></p>
-      <div id="end_of_game" style="visibility:hidden;width:200px;">
+      <div id="help_panel" style="width:200px;">
+        <div id="question_mark" style="display:block;text-align:center;" onclick="click_help();">?</div>
+        <div id="letter_solution" style="display:none;text-align:center;"></div>
+      </div>
+      
+    <p></p>
+      <div id="end_of_game" style="display:none;width:200px;">
         <div style="text-align:center;">Done!</div>
         <div id="elapsed_time" style="text-align:center;"></div>
       </div>
@@ -366,7 +391,7 @@
       if (seconds !== 0) { fmt_time += seconds + ' seconds '; }
     
       document.getElementById('elapsed_time').innerHTML = fmt_time;
-      document.getElementById('end_of_game').style.visibility='visible';
+      document.getElementById('end_of_game').style.display = 'block';
     }
     
     function play_next_symbol() {
@@ -381,8 +406,23 @@
       }
     }
     
+    function click_help() {
+      document.getElementById('question_mark').style.display = 'none';
+      document.getElementById('letter_solution').style.display = 'block';
+
+      document.getElementById('guess_result').focus();
+    }
+    
+    function set_help_solution() {
+      document.getElementById('letter_solution').style.display = 'none';
+      document.getElementById('question_mark').style.display = 'block';
+      
+      document.getElementById('letter_solution').innerHTML = current_let;
+    }
+    
     function show_next_symbol() {
       document.getElementById('guess_symbol').innerHTML = '&#' + current_sym + ';';
+      set_help_solution();
     }
     
     function choose_next_symbol() {
@@ -436,8 +476,8 @@
       
       document.getElementById('current_table').innerHTML = document.getElementById(game_value).innerHTML;
       
-      document.getElementById('end_of_game').style.visibility='hidden';
-      document.getElementById('elapsed_time').innerHTML='';
+      document.getElementById('end_of_game').style.display = 'none';
+      document.getElementById('elapsed_time').innerHTML = '';
       document.getElementById('guess_result').focus();
       
       copy_game_to_arrays();

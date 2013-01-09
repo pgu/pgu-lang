@@ -410,6 +410,7 @@
     
       document.getElementById('elapsed_time').innerHTML = fmt_time;
       document.getElementById('end_of_game').style.display = 'block';
+      document.getElementById('help_panel').style.display = 'none';
     }
     
     function play_next_symbol() {
@@ -496,6 +497,9 @@
       
       document.getElementById('end_of_game').style.display = 'none';
       document.getElementById('elapsed_time').innerHTML = '';
+      
+      document.getElementById('help_panel').style.display = 'block';
+      
       document.getElementById('guess_result').focus();
       
       copy_game_to_arrays();

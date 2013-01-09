@@ -63,18 +63,15 @@
 <!-- ------------------------------------------------------------------------------------ -->
 
     
-    <p>
-      <input type="radio" id="game_hiragana" name="game" value="hiragana" checked>Hiragana</input>
-      <input type="radio" id="game_katakana" name="game" value="katakana">Katakana</input>
-      <input type="radio" id="game_arabic"   name="game" value="arabic">Arabic</input>
-      <input type="radio" id="game_russian"  name="game" value="russian">Russian</input>
-      <input type="radio" id="game_korean"   name="game" value="korean">Korean</input>
-      <input type="button" value="Play" onclick="play_game();"></input>
-    </p>
-    
     <p></p>
-    
-    <p>
+      <input type="radio" id="game_hiragana" name="game" value="hiragana" checked />Hiragana
+      <input type="radio" id="game_katakana" name="game" value="katakana" />Katakana
+      <input type="radio" id="game_arabic"   name="game" value="arabic" />Arabic
+      <input type="radio" id="game_russian"  name="game" value="russian" />Russian
+      <input type="radio" id="game_korean"   name="game" value="korean" />Korean
+      <input type="button" value="Play" onclick="play_game();" />
+      
+    <p></p>
      <div style="width:200px">
        <div id="guess_symbol"></div>
        <div>
@@ -83,23 +80,17 @@
            </div>
        </div>
      </div>
-    </p>
     
     <p></p>
-    
-    <p>
       <div id="end_of_game" style="visibility:hidden;width:200px;">
         <div style="text-align:center;">Done!</div>
         <div id="elapsed_time" style="text-align:center;"></div>
       </div>
-    </p>
     
     <p></p>
-    
-    <table id="current_table" class="symbols_table">
+    <table id="current_table" class="symbols_table"></table>
      
     <p></p>
-    
     <table id="hiragana" class="left_f symbols_table">
     
     <tr><td class="sym">&#12354;</td><td class="sym">&#12356;</td><td class="sym">&#12358;</td><td class="sym">&#12360;</td><td class="sym">&#12362;</td></tr>
@@ -253,7 +244,6 @@
     </table>
 
     <div class="clearfix"></div>
-    <p></p>
     <p></p>
     
     <script>

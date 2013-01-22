@@ -100,11 +100,12 @@
 
     
     <p></p>
-      <input type="radio" id="game_hiragana" name="game" value="hiragana" checked />Hiragana
-      <input type="radio" id="game_katakana" name="game" value="katakana" />Katakana
-      <input type="radio" id="game_arabic"   name="game" value="arabic" />Arabic
-      <input type="radio" id="game_russian"  name="game" value="russian" />Russian
-      <input type="radio" id="game_korean"   name="game" value="korean" />Korean
+      <input type="radio" id="game_hiragana"    name="game" value="hiragana" checked />Hiragana
+      <input type="radio" id="game_katakana"    name="game" value="katakana" />Katakana
+      <input type="radio" id="game_arabic"      name="game" value="arabic" />Arabic
+      <input type="radio" id="game_full_arabic" name="game" value="full_arabic" />Full arabic
+      <input type="radio" id="game_russian"     name="game" value="russian" />Russian
+      <input type="radio" id="game_korean"      name="game" value="korean" />Korean
       <input type="button" value="Play" onclick="play_game();" />
       
       <a id="download" target="_blank" href="http://pgu-jeu.appspot.com/download">&#x25BC;</a>
@@ -177,7 +178,41 @@
      ,  'd', '65193', 'dh', '65195',  'r', '65197',  'z', '65199',  's', '65201', 'sh', '65205',  'S', '65209', 'D', '65213'
      ,  'T', '65217', 'DH', '65221',  '-', '65225', 'gh', '65229',  'f', '65233',  'q', '65237',  'k', '65241', 'l', '65245'
      ,  'm', '65249',  'n', '65253',  'h', '65257',  'w', '65261',  'y', '65265',   __,      __,   __,      __,  __,      __
+     , 'la', '65275',   __,      __,   __,      __,   __,      __,   __,      __,   __,      __,   __,      __,  __,      __
     ];
+
+    var full_arabic = //
+    [   'a', '65165',  'a', '65166',   __,      __,   __,      __
+     ,  'b', '65167',  'b', '65168',  'b', '65170',  'b', '65169'
+     ,  't', '65173',  't', '65174',  't', '65176',  't', '65175'
+     , 'th', '65177', 'th', '65178', 'th', '65180', 'th', '65179'
+     ,  'j', '65181',  'j', '65182',  'j', '65184',  'j', '65183'
+     ,  'H', '65185',  'H', '65186',  'H', '65188',  'H', '65187'
+     , 'kh', '65189', 'kh', '65190', 'kh', '65192', 'kh', '65191'
+     ,  'd', '65193',  'd', '65194',   __,      __,   __,      __
+     , 'dh', '65195', 'dh', '65196',   __,      __,   __,      __
+     ,  'r', '65197',  'r', '65198',   __,      __,   __,      __
+     ,  'z', '65199',  'z', '65200',   __,      __,   __,      __
+     ,  's', '65201',  's', '65202',  's', '65204',   's', '65203'
+     , 'sh', '65205', 'sh', '65206', 'sh', '65208',  'sh', '65207'
+     ,  'S', '65209',  'S', '65210',  'S', '65212',   'S', '65211'
+     ,  'D', '65213',  'D', '65214',  'D', '65216',   'D', '65215'
+     ,  'T', '65217',  'T', '65218',  'T', '65220',   'T', '65219'
+     , 'DH', '65221', 'DH', '65222', 'DH', '65224',  'DH', '65223'
+     ,  '-', '65225',  '-', '65226',  '-', '65228',   '-', '65227'
+     , 'gh', '65229', 'gh', '65230', 'gh', '65232',  'gh', '65231'
+     ,  'f', '65233',  'f', '65234',  'f', '65236',   'f', '65235'
+     ,  'q', '65237',  'q', '65238',  'q', '65240',   'q', '65239'
+     ,  'k', '65241',  'k', '65242',  'k', '65244',   'k', '65243'
+     ,  'l', '65245',  'l', '65246',  'l', '65248',   'l', '65247'
+     ,  'm', '65249',  'm', '65250',  'm', '65252',   'm', '65251'
+     ,  'n', '65253',  'n', '65254',  'n', '65256',   'n', '65255'
+     ,  'h', '65257',  'h', '65258',  'h', '65260',   'h', '65259'
+     ,  'w', '65261',  'w', '65262',   __,      __,   __,      __
+     ,  'y', '65265',  'y', '65266',  'y', '65268',   'y', '65267'
+     , 'la', '65275', 'la', '65276',   __,      __,   __,      __
+    ];
+    
     
     var russian = //
     [   'a', '1040',  'b', '1041',  'v', '1042',  'g', '1043',   'd', '1044'
@@ -203,20 +238,22 @@
     
     var games_cols =
     {  
-       'hiragana': 5
-     , 'katakana': 5
-     ,   'arabic': 8
-     ,  'russian': 5
-     ,   'korean': 5
+          'hiragana': 5
+     ,    'katakana': 5
+     ,      'arabic': 8
+     , 'full_arabic': 4
+     ,     'russian': 5
+     ,      'korean': 5
     }
     
     var games = 
     {  
-       'hiragana': hiragana
-     , 'katakana': katakana
-     ,   'arabic': arabic
-     ,  'russian': russian
-     ,   'korean': korean
+          'hiragana': hiragana
+     ,    'katakana': katakana
+     ,      'arabic': arabic
+     , 'full_arabic': full_arabic
+     ,     'russian': russian
+     ,      'korean': korean
     }
     
     var symbols = [];
@@ -335,9 +372,9 @@
     function get_selected_game() {
     	
       var radio_ids = [
-                         'game_hiragana', 'game_katakana'
-                       ,   'game_arabic',  'game_russian'
-                       ,   'game_korean'
+                         'game_hiragana',    'game_katakana'
+                       ,   'game_arabic', 'game_full_arabic'
+                       ,  'game_russian',      'game_korean'
                        ];
       
       for (var i = 0; i < radio_ids.length; i++) {

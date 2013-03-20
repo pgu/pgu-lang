@@ -8,12 +8,113 @@
 <!--     <script type="text/javascript" language="javascript" src="pgu_jeu/pgu_jeu.nocache.js"></script> -->
 
     <style>
-
-      body {
-        padding-top: 10px;
-        padding-left: 20px;
-      }
-
+        body {
+            margin: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333333;
+            background-color: #ffffff;
+        }
+        ul {
+            padding: 0;
+            margin: 0 0 10px 25px;
+        }
+        li {
+          line-height: 20px;
+        }
+        ul {
+            margin-left: 0;
+            list-style: none;
+        }
+        h2, 
+        h3 {
+            orphans: 3;
+            widows: 3;
+            page-break-after: avoid;
+            margin: 10px 0;
+            font-family: inherit;
+            font-weight: bold;
+            line-height: 40px;
+            color: inherit;
+            text-rendering: optimizelegibility;
+        }
+        h2 {
+            font-size: 31.5px;
+            color: #5a5a5a;
+        }
+        h3 {
+            font-size: 24.5px;
+        }
+        article {
+            margin-right: 5px;
+        }
+        .span4 {
+            width: 380px;
+        }
+        .well {
+            min-height: 20px;
+            padding: 19px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            -webkit-border-radius: 4px;
+               -moz-border-radius: 4px;
+                    border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+               -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        }
+        .pull-left {
+            float: left;
+        }
+        .clearfix {
+          *zoom: 1;
+        }
+        
+        .clearfix:before,
+        .clearfix:after {
+          display: table;
+          line-height: 0;
+          content: "";
+        }
+        
+        .clearfix:after {
+          clear: both;
+        }
+        
+        .ex_symbol {
+            color: #1e347b;
+            margin-right: 10px;
+            text-shadow: 0 1px 0 #fff;
+        }
+        .ex_jap {
+            color: teal;
+            margin-right: 10px;
+            text-shadow: 0 1px 0 #fff;
+        }
+        .ex_eng {
+            color: #D14; /* #48484c */
+            margin-right: 10px;
+            text-shadow: 0 1px 0 #fff;
+        }
+        .container-fluid {
+          padding-right: 20px;
+          padding-left: 20px;
+          *zoom: 1;
+        }
+        
+        .container-fluid:before,
+        .container-fluid:after {
+          display: table;
+          line-height: 0;
+          content: "";
+        }
+        
+        .container-fluid:after {
+          clear: both;
+        }
+        
     </style>
 
   </head>
@@ -31,7 +132,9 @@
 
     
     <p></p>
-    <div id="kanji"></div>
+    <div class="container-fluid">
+        <div id="kanji"></div>
+    </div>
     <p></p>
     
     <script>
@@ -202,7 +305,7 @@
     var YOMI = 1;
     var EX = 2;
 
-    function show_data() {
+    function show_data_simple() {
     	
     	var cards = [];
     	
@@ -261,6 +364,79 @@
     		
     		cards.push(card.join(''));
     	}
+    	
+    	document.getElementById('kanji').innerHTML = cards.join('');
+    }
+    
+    function show_data() {
+    	
+    	var cards = [];
+    	cards.push('<section class="clearfix">');
+    	
+    	for (var i=0; i < data.length; i++) {
+    		var row = data[i];
+    		
+    		var title = row[TITLE];
+    		var yomi = row[YOMI];
+    		var ex = row[EX];
+    		
+    		var card = [];
+    		card.push('<article class="well span4 pull-left">');
+    		
+			card.push('<h2>');
+			
+			var title_symbol = title[0];
+			var title_trads = [];
+    		for (var j=1; j < title.length; j++) {
+    			title_trads.push(title[j]);
+    		}
+    		card.push(title_symbol);
+    		card.push(' ');
+    		card.push(title_trads.join(', '));
+			card.push('</h2>');
+			
+			card.push('<p>');
+    		for (var j=0; j < yomi.length; j++) {
+    			card.push(yomi[j]);
+    		    card.push(' ');
+    		}
+			card.push('</p>');
+    		
+    		card.push('<ul>');
+    		
+            for (var k=0; k < ex.length; k++) {
+            	var ex_row = ex[k];
+                
+//                 if (ex_row.length != 3) {
+//                 	throw { 
+//                 		msg: 'this row does not have the correct number of args!'
+//                 	  , row: ex_row
+//             		};
+//                 }
+                
+                var symbol = ex_row[0];
+                var jap = ex_row[1];
+                var eng = ex_row[2];
+                
+                card.push('<li>');
+                card.push('<span class="ex_symbol">');
+                card.push(symbol);
+                card.push('</span>');
+                card.push('<span class="ex_jap">');
+                card.push(jap);
+                card.push('</span>');
+                card.push('<span class="ex_eng">');
+                card.push(eng);
+                card.push('</span>');
+                card.push('</li>');
+            }
+    		
+    		card.push('</ul>');
+    		card.push('</article>');
+    		
+    		cards.push(card.join(''));
+    	}
+		cards.push('</section>');
     	
     	document.getElementById('kanji').innerHTML = cards.join('');
     }

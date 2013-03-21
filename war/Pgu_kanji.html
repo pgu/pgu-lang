@@ -385,6 +385,29 @@
             width: 100px;
             margin-left: 20px;
         }
+        .correct_answer {
+            color: #468847;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        input[type="text"] {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+            display: inline-block;
+            height: 40px;
+            padding: 4px 6px;
+            margin-bottom: 10px;
+            font-size: 28px;
+            line-height: 40px;
+            color: #555555;
+            vertical-align: middle;
+            border-radius: 4px;
+            width : 206px;
+        }
     </style>
 
   </head>
@@ -667,14 +690,28 @@
     pgu_jap_is_done = false;
     
     function check_eng(solution) {
-    	var value = document.getElementById('eng_input').value;
+    	var input = document.getElementById('eng_input');
+    	var value = input.value;
         pgu_eng_is_done = value === solution;		
+        
+        if (pgu_eng_is_done) {
+        	input.classList.add('correct_answer');
+        } else {
+        	input.classList.remove('correct_answer');
+        }
         
         check_all_values();
     }
     function check_jap(solution) {
-    	var value = document.getElementById('jap_input').value;
+    	var input = document.getElementById('jap_input');
+    	var value = input.value;
         pgu_jap_is_done = value === solution;		
+        
+        if (pgu_jap_is_done) {
+        	input.classList.add('correct_answer');
+        } else {
+        	input.classList.remove('correct_answer');
+        }
         
         check_all_values();
     }
@@ -726,7 +763,9 @@
         
         var modal_body_play = [];
         modal_body_play.push('<h2 class="big">' + symbol + '</h2>');
+        modal_body_play.push('<p>');
         modal_body_play.push('<input id="jap_input" type="text" placeholder="ichi" onkeyup="check_jap(\'' + jap + '\');" ></input>');
+        modal_body_play.push('<p>');
         modal_body_play.push('<input id="eng_input" type="text" placeholder="one" onkeyup="check_eng(\'' + eng + '\');" ></input>');
 
         document.getElementById('modal_body_play').innerHTML = modal_body_play.join('');

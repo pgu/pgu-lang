@@ -416,30 +416,21 @@
     </div>
     
     <script>
-    function showSymbol(row_index) {
-        location.hash = '#' + row_index;
-        showPopup();
-    }
-    
     function showPopup() {
     	
     	var hash = location.hash;
     	if (!hash) {
-    		throw {
-    			msg: 'No hash was provided'
-    		}
+    		closePopup();
+    		console.log('No hash was provided');
+    		return;
     	}
     	
     	var str_row_index = hash.substring(1);
-    	var row_index; 
-    	try {
-    		row_index = new Number(str_row_index);
-    	} catch (e) {
-    		throw {
-    			msg: 'Invalid row index: ' + row_index
-    		  , exception: e
-    		}
-    	}
+		var row_index = new Number(str_row_index);
+		if (isNaN(row_index)) {
+			closePopup();
+			throw 'invalid row index ' + str_row_index;
+		}
     	
     	if (row_index >= data.length
     			|| row_index < 0) {
@@ -454,6 +445,12 @@
         updateNextArrow(row_index);
     }
 
+    window.addEventListener("hashchange", showPopup, false);
+
+    function showSymbol(row_index) {
+        location.hash = '#' + row_index;
+    }
+    
     function updatePreviousArrow(row_index) {
         var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;    	
     	
@@ -752,6 +749,7 @@
     }
     
     show_data();
+    showPopup();
     </script>
 
   </body>

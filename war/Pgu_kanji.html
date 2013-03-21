@@ -24,7 +24,7 @@
           line-height: 20px;
         }
         li.big {
-          line-height: 40px;
+          line-height: 80px;
         }
         ul {
             margin-left: 0;
@@ -106,7 +106,12 @@
             text-shadow: 0 1px 0 #fff;
         }
         .big {
+            font-size: 42px;
+            line-height: 40px;
+        }
+        .btn.big {
             font-size: 28px;
+            line-height: 40px;
         }
         .container-fluid {
           padding-right: 20px;
@@ -150,7 +155,7 @@
           top: 10%;
           left: 50%;
           z-index: 1050;
-          width: 560px;
+          width: 660px;
           margin-left: -280px;
           background-color: #ffffff;
           border: 1px solid #999;
@@ -196,7 +201,7 @@
         
         .modal-body {
           position: relative;
-          max-height: 400px;
+          max-height: 800px;
           padding: 15px;
           overflow-y: auto;
         }
@@ -252,6 +257,10 @@
           text-shadow: 0 1px 0 #ffffff;
           opacity: 0.2;
           filter: alpha(opacity=20);
+        }
+        .close.big {
+          font-size: 40px;
+          line-height: 40px;
         }
         
         .close:hover,
@@ -391,15 +400,15 @@
     <div id="container_game" style="display:none;">
         <div id="myModal" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
             <div class="modal-header">
-                <button type="button" class="close" aria-hidden="true" onclick="closePopup();">×</button>
+                <button type="button" class="close big" aria-hidden="true" onclick="closePopup();">×</button>
                 <h3 id="myModalLabel"></h3>
             </div>
             <div class="modal-body">
                 <div id="modal_body"></div>
             </div>
             <div class="modal-footer">
-                <button id="modal_previous" class="btn">&#8592;</button>
-                <button id="modal_next" class="btn">&#8594;</button>
+                <button id="modal_previous" class="btn big">&#9668;</button>
+                <button id="modal_next" class="btn big">&#9658;</button>
             </div>
         </div>
         
@@ -634,7 +643,7 @@
     ,[['楽', 'MERRY', 'PLEASANT', 'MUSIC'], ['GAKU', 'RAKU', 'tano(shii)'], [['楽しい', 'tanoshii', 'pleasant'], ['音楽', 'ongaku', 'music'], ['楽器', 'gakki', 'musical instrument'], ['楽', 'raku', 'easy, simple'], ['極楽', 'gokuraku', 'paradise']]]
     ,[['電', 'ELECTRICITY'], ['DEN'], [['電気', 'denki', 'electricity'], ['電話', 'denwa', 'telephone'], ['電車', 'densha', 'train'], ['電子', 'denshi', 'electronic'], ['電球', 'denkyū', 'light bulb']]]
     ,[['明', 'CLEAR', 'BRIGHT'], ['MEI', 'aka(rui)'], [['明るい', 'akarui', 'clear'], ['説明', 'setsumei', 'explain'], ['不明', 'fumei', 'unknown'], ['文明', 'bunmei', 'civilization'], ['透明', 'tōmei', 'transparent, invisible']]]
-    ,[['家', 'HOUSE', 'PROFESSION'], ['KA', 'ie'], [['家', 'ie', 'house'], ['家族', 'kazoku', 'family'], ['家事', 'kaji', 'house work, hose chores'], ['画家', 'gaka', 'artist'], ['漫画家', 'mangaka', 'comic artist']]]
+    ,[['家', 'HOUSE', 'PROFESSION'], ['KA', 'ie'], [['家', 'ie', 'house'], ['家族', 'kazoku', 'family'], ['家事', 'kaji', 'house work, house chores'], ['画家', 'gaka', 'artist'], ['漫画家', 'mangaka', 'comic artist']]]
     ];
     
     var TITLE = 0;

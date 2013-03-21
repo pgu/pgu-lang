@@ -662,6 +662,29 @@
     	
     	document.getElementById('kanji').innerHTML = cards.join('');
     }
+
+    pgu_eng_is_done = false;
+    pgu_jap_is_done = false;
+    
+    function check_eng(solution) {
+    	var value = document.getElementById('eng_input').value;
+        pgu_eng_is_done = value === solution;		
+        
+        check_all_values();
+    }
+    function check_jap(solution) {
+    	var value = document.getElementById('jap_input').value;
+        pgu_jap_is_done = value === solution;		
+        
+        check_all_values();
+    }
+    
+    function check_all_values() {
+    	if (pgu_jap_is_done //
+    			&& pgu_eng_is_done) {
+    		document.getElementById('modal_next').onclick();    		
+    	}
+    }
     
     function togglePlay() {
         var isNotPlaying = document.getElementById('modal_body').style.display === 'inline';
@@ -671,15 +694,42 @@
             document.getElementById('modal_play').innerHTML = 'stop';
             document.getElementById('modal_body').style.display = 'none';
             document.getElementById('modal_body_play').style.display = 'inline';
+
+            showGame();
             
         } else {
             // stop playing
             document.getElementById('modal_play').innerHTML = 'play';
             document.getElementById('modal_body').style.display = 'inline';
             document.getElementById('modal_body_play').style.display = 'none';
-            
+
+            // hide game
+            pgu_eng_is_done = false;
+            pgu_jap_is_done = false;
+            document.getElementById('modal_body_play').innerHTML = '';
         }
+    }
+    
+    function showGame() {
+        pgu_eng_is_done = false;
+        pgu_jap_is_done = false;
+
+        var hash = location.hash;
+        var str_row_index = hash.substring(1);
+        var row_index = new Number(str_row_index);
+
+        var row = data[row_index];
+        var first_ex = row[idx_EX][0];
+        var symbol = first_ex[idx_SYMBOL];
+        var jap = first_ex[idx_JAP].trim();
+        var eng = first_ex[idx_ENG].trim();
         
+        var modal_body_play = [];
+        modal_body_play.push('<h2 class="big">' + symbol + '</h2>');
+        modal_body_play.push('<input id="jap_input" type="text" placeholder="ichi" onkeyup="check_jap(\'' + jap + '\');" ></input>');
+        modal_body_play.push('<input id="eng_input" type="text" placeholder="one" onkeyup="check_eng(\'' + eng + '\');" ></input>');
+
+        document.getElementById('modal_body_play').innerHTML = modal_body_play.join('');
     }
     
     function showPopup() {
@@ -751,9 +801,9 @@
         for (var k=0; k < ex.length; k++) {
             var ex_row = ex[k];
             
-            var symbol = ex_row[SYMBOL];
-            var jap = ex_row[1];
-            var eng = ex_row[2];
+            var symbol = ex_row[idx_SYMBOL];
+            var jap = ex_row[idx_JAP];
+            var eng = ex_row[idx_ENG];
             
             modal_body.push('<li class="big">');
             modal_body.push('<span class="ex_symbol big">' + symbol + '</span>');
@@ -764,6 +814,11 @@
         modal_body.push('</ul>');
 
         document.getElementById('modal_body').innerHTML = modal_body.join('');
+        
+        var isPlaying = document.getElementById('modal_body').style.display === 'none';
+        if (isPlaying) {
+        	showGame();
+        }
     }
     
     function closePopup() {

@@ -373,9 +373,6 @@
 <!-- ------------------------------------------------------------------------------------ -->
 
     <p></p>
-    <button class="btn" onclick="showPopup();">TEST</button>
-    
-    <p></p>
     <div class="container-fluid">
         <div id="kanji"></div>
     </div>
@@ -385,14 +382,14 @@
         <div id="myModal" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
             <div class="modal-header">
                 <button type="button" class="close" aria-hidden="true" onclick="closePopup();">×</button>
-                <h3 id="myModalLabel">Modal Heading</h3>
+                <h3 id="myModalLabel"></h3>
             </div>
             <div class="modal-body">
-                <p>test</p>
+                <div id="modal_body"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn">&#8592;</button>
-                <button class="btn">&#8594;</button>
+                <button id="modal_previous" class="btn">&#8592;</button>
+                <button id="modal_next" class="btn">&#8594;</button>
             </div>
         </div>
         
@@ -400,13 +397,72 @@
     </div>
     
     <script>
-    function showPopup() {
+    
+    function showPopup(row_index) {
         document.getElementById('container_game').style.display = 'inline';
+        showSymbolInPopup(row_index);
+        
+        updatePreviousArrow(row_index);
+        updateNextArrow(row_index);
     }
-    function closePopup() {
-        document.getElementById('container_game').style.display = 'none';
+
+    function updatePreviousArrow(row_index) {
+        var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;    	
+    	
+        document.getElementById('modal_previous').onclick = function() {
+        	clearPopup();
+            showPopup(previous_row_index);        	
+        };
     }
     
+    function updateNextArrow(row_index) {
+        var next_row_index = row_index < data.length -1 ? row_index + 1 : 0;    	
+    	
+        document.getElementById('modal_next').onclick = function() {
+        	clearPopup();
+            showPopup(next_row_index);        	
+        };
+    }
+    
+    function showSymbolInPopup(row_index) {
+        var row = data[row_index];
+        
+        var title = row[TITLE];
+        var yomi = row[YOMI];
+        var ex = row[EX];
+
+        var modal_body = [];
+        
+        modal_body.push('<h2>' + title.join(', ') + '</h2>');
+        modal_body.push('<p>' + yomi.join(' ') + '</p>');
+        
+        modal_body.push('<ul>');
+        for (var k=0; k < ex.length; k++) {
+            var ex_row = ex[k];
+            
+            var symbol = ex_row[0];
+            var jap = ex_row[1];
+            var eng = ex_row[2];
+            
+            modal_body.push('<li>');
+            modal_body.push('<span class="ex_symbol">' + symbol + '</span>');
+            modal_body.push('<span class="ex_jap">' + jap + '</span>');
+            modal_body.push('<span class="ex_eng">' + eng + '</span>');
+            modal_body.push('</li>');
+        }
+        modal_body.push('</ul>');
+
+        document.getElementById('modal_body').innerHTML = modal_body.join('');
+    }
+    
+    function closePopup() {
+        document.getElementById('container_game').style.display = 'none';
+        clearPopup();
+    }
+    
+    function clearPopup() {
+        document.getElementById('modal_body').innerHTML = '';
+    }
     
     var data = [
      [['一', 'ONE'], ['ICHI', 'hito'], [['一', 'ichi', 'one'], ['一月', 'ichi gatsu', 'January'], ['一つ', 'hitotsu', 'one'], ['一人', 'hitori', 'one person'], ['一日', 'tsuitachi', '1st of the month']]]
@@ -575,69 +631,6 @@
     var YOMI = 1;
     var EX = 2;
 
-    function show_data_simple() {
-    	
-    	var cards = [];
-    	
-    	for (var i=0; i < data.length; i++) {
-    		var row = data[i];
-    		
-    		var title = row[TITLE];
-    		var yomi = row[YOMI];
-    		var ex = row[EX];
-    		
-    		var card = [];
-    		card.push('<table>');
-    		card.push('<tr>');
-    		card.push('<td>');
-    		
-			card.push('<div>');
-			card.push('<ul>');
-    		for (var j=0; j < title.length; j++) {
-    		    card.push('<li>');
-    			card.push(title[j]);
-    		    card.push('</li>');
-    		}
-			card.push('</ul>');
-			card.push('</div>');
-			
-			card.push('<div>');
-			card.push('<ul>');
-    		for (var j=0; j < yomi.length; j++) {
-    		    card.push('<li>');
-    			card.push(yomi[j]);
-    		    card.push('</li>');
-    		}
-			card.push('</ul>');
-			card.push('</div>');
-    		
-    		card.push('</td>');
-    		card.push('<td>');
-    		
-            for (var k=0; k < ex.length; k++) {
-            	var ex_row = ex[k];
-                card.push('<div>');
-//                 card.push('<ul>');
-                for (var m=0; m < ex_row.length; m++) {
-//                     card.push('<li>');
-                    card.push(ex_row[m]);
-                    card.push(', ');
-//                     card.push('</li>');
-                }
-//                 card.push('</ul>');
-                card.push('</div>');
-            }
-    		
-    		card.push('</td>');
-    		card.push('</tr>');
-    		card.push('</table>');
-    		
-    		cards.push(card.join(''));
-    	}
-    	
-    	document.getElementById('kanji').innerHTML = cards.join('');
-    }
-    
     function show_data() {
     	
     	var cards = [];
@@ -653,6 +646,8 @@
     		var card = [];
     		card.push('<article class="well span4 pull-left">');
     		
+    		card.push('<button type="button" class="close" onclick="showPopup(' + i + ');">+</button>');
+    		
 			card.push('<h2>');
 			
 			var title_symbol = title[0];
@@ -666,10 +661,7 @@
 			card.push('</h2>');
 			
 			card.push('<p>');
-    		for (var j=0; j < yomi.length; j++) {
-    			card.push(yomi[j]);
-    		    card.push(' ');
-    		}
+			card.push(yomi.join(' '));
 			card.push('</p>');
     		
     		card.push('<ul>');

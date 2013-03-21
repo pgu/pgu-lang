@@ -378,7 +378,12 @@
         }
              
         #modal_next {
-            margin-left: 80px;
+            margin-left: 20px;
+        }
+        #modal_play {
+            color: #04c;
+            width: 100px;
+            margin-left: 20px;
         }
     </style>
 
@@ -405,12 +410,14 @@
         <div id="myModal" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
             <div class="modal-header">
                 <button id="modal_previous" class="btn big">&lt;</button>
+                <button id="modal_play" class="btn big" onclick="togglePlay();">play</button>
                 <button id="modal_next" class="btn big">&gt;</button>
                 <button type="button" class="close big" aria-hidden="true" onclick="closePopup();">×</button>
                 <h3 id="myModalLabel"></h3>
             </div>
             <div class="modal-body">
-                <div id="modal_body"></div>
+                <div id="modal_body" style="display:inline"></div>
+                <div id="modal_body_play" style="display:none"></div>
             </div>
             <div class="modal-footer">
             </div>
@@ -420,99 +427,6 @@
     </div>
     
     <script>
-    function showPopup() {
-    	
-    	var hash = location.hash;
-    	if (!hash) {
-    		closePopup();
-    		console.log('No hash was provided');
-    		return;
-    	}
-    	
-    	var str_row_index = hash.substring(1);
-		var row_index = new Number(str_row_index);
-		if (isNaN(row_index)) {
-			closePopup();
-			throw 'invalid row index ' + str_row_index;
-		}
-    	
-    	if (row_index >= data.length
-    			|| row_index < 0) {
-    		showSymbol(0);
-    		return;
-    	}
-    	
-        document.getElementById('container_game').style.display = 'inline';
-        showSymbolInPopup(row_index);
-        
-        updatePreviousArrow(row_index);
-        updateNextArrow(row_index);
-    }
-
-    window.addEventListener("hashchange", showPopup, false);
-
-    function showSymbol(row_index) {
-        location.hash = '#' + row_index;
-    }
-    
-    function updatePreviousArrow(row_index) {
-        var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;    	
-    	
-        document.getElementById('modal_previous').onclick = function() {
-        	clearPopup();
-        	showSymbol(previous_row_index);
-        };
-    }
-    
-    function updateNextArrow(row_index) {
-        var next_row_index = row_index < data.length -1 ? row_index + 1 : 0;    	
-    	
-        document.getElementById('modal_next').onclick = function() {
-        	clearPopup();
-        	showSymbol(next_row_index);
-        };
-    }
-    
-    function showSymbolInPopup(row_index) {
-        var row = data[row_index];
-        
-        var title = row[TITLE];
-        var yomi = row[YOMI];
-        var ex = row[EX];
-
-        var modal_body = [];
-        
-        modal_body.push('<h2 class="big">' + title.join(', ') + '</h2>');
-        modal_body.push('<p class="big">' + yomi.join(' ') + '</p>');
-        
-        modal_body.push('<ul>');
-        for (var k=0; k < ex.length; k++) {
-            var ex_row = ex[k];
-            
-            var symbol = ex_row[0];
-            var jap = ex_row[1];
-            var eng = ex_row[2];
-            
-            modal_body.push('<li class="big">');
-            modal_body.push('<span class="ex_symbol big">' + symbol + '</span>');
-            modal_body.push('<span class="ex_jap big">' + jap + '</span>');
-            modal_body.push('<span class="ex_eng big">' + eng + '</span>');
-            modal_body.push('</li>');
-        }
-        modal_body.push('</ul>');
-
-        document.getElementById('modal_body').innerHTML = modal_body.join('');
-    }
-    
-    function closePopup() {
-        document.getElementById('container_game').style.display = 'none';
-        clearPopup();
-    }
-    
-    function clearPopup() {
-        document.getElementById('modal_body').innerHTML = '';
-    }
-    
     var data = [
      [['一', 'ONE'], ['ICHI', 'hito'], [['一', 'ichi', 'one'], ['一月', 'ichi gatsu', 'January'], ['一つ', 'hitotsu', 'one'], ['一人', 'hitori', 'one person'], ['一日', 'tsuitachi', '1st of the month']]]
     ,[['二', 'TWO'], ['NI', 'futa'], [['二', 'ni', 'two'], ['二月', 'ni gatsu', 'February'], ['二つ',  'futatsu', 'two'], ['二人', 'futari', 'two people'], ['二日', 'futsuka', '2nd of the month']]]
@@ -676,9 +590,13 @@
     ,[['家', 'HOUSE', 'PROFESSION'], ['KA', 'ie'], [['家', 'ie', 'house'], ['家族', 'kazoku', 'family'], ['家事', 'kaji', 'house work, house chores'], ['画家', 'gaka', 'artist'], ['漫画家', 'mangaka', 'comic artist']]]
     ];
     
-    var TITLE = 0;
-    var YOMI = 1;
-    var EX = 2;
+    var idx_TITLE = 0;
+    var idx_YOMI = 1;
+    var idx_EX = 2;
+    
+    var idx_SYMBOL = 0;
+    var idx_JAP = 1;
+    var idx_ENG = 2;
 
     function show_data() {
     	
@@ -688,9 +606,9 @@
     	for (var i=0; i < data.length; i++) {
     		var row = data[i];
     		
-    		var title = row[TITLE];
-    		var yomi = row[YOMI];
-    		var ex = row[EX];
+    		var title = row[idx_TITLE];
+    		var yomi = row[idx_YOMI];
+    		var ex = row[idx_EX];
     		
     		var card = [];
     		card.push('<article class="well span4 pull-left">');
@@ -718,16 +636,9 @@
             for (var k=0; k < ex.length; k++) {
             	var ex_row = ex[k];
                 
-//                 if (ex_row.length != 3) {
-//                 	throw { 
-//                 		msg: 'this row does not have the correct number of args!'
-//                 	  , row: ex_row
-//             		};
-//                 }
-                
-                var symbol = ex_row[0];
-                var jap = ex_row[1];
-                var eng = ex_row[2];
+                var symbol = ex_row[idx_SYMBOL];
+                var jap = ex_row[idx_JAP];
+                var eng = ex_row[idx_ENG];
                 
                 card.push('<li>');
                 card.push('<span class="ex_symbol">');
@@ -750,6 +661,119 @@
 		cards.push('</section>');
     	
     	document.getElementById('kanji').innerHTML = cards.join('');
+    }
+    
+    function togglePlay() {
+        var isNotPlaying = document.getElementById('modal_body').style.display === 'inline';
+        
+        if (isNotPlaying) {
+            // start playing
+            document.getElementById('modal_play').innerHTML = 'stop';
+            document.getElementById('modal_body').style.display = 'none';
+            document.getElementById('modal_body_play').style.display = 'inline';
+            
+        } else {
+            // stop playing
+            document.getElementById('modal_play').innerHTML = 'play';
+            document.getElementById('modal_body').style.display = 'inline';
+            document.getElementById('modal_body_play').style.display = 'none';
+            
+        }
+        
+    }
+    
+    function showPopup() {
+        
+        var hash = location.hash;
+        if (!hash) {
+            closePopup();
+            console.log('No hash was provided');
+            return;
+        }
+        
+        var str_row_index = hash.substring(1);
+        var row_index = new Number(str_row_index);
+        if (isNaN(row_index)) {
+            closePopup();
+            throw 'invalid row index ' + str_row_index;
+        }
+        
+        if (row_index >= data.length
+                || row_index < 0) {
+            showSymbol(0);
+            return;
+        }
+        
+        document.getElementById('container_game').style.display = 'inline';
+        showSymbolInPopup(row_index);
+        
+        updatePreviousArrow(row_index);
+        updateNextArrow(row_index);
+    }
+
+    window.addEventListener("hashchange", showPopup, false);
+
+    function showSymbol(row_index) {
+        location.hash = '#' + row_index;
+    }
+    
+    function updatePreviousArrow(row_index) {
+        var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;       
+        
+        document.getElementById('modal_previous').onclick = function() {
+            clearPopup();
+            showSymbol(previous_row_index);
+        };
+    }
+    
+    function updateNextArrow(row_index) {
+        var next_row_index = row_index < data.length -1 ? row_index + 1 : 0;        
+        
+        document.getElementById('modal_next').onclick = function() {
+            clearPopup();
+            showSymbol(next_row_index);
+        };
+    }
+    
+    function showSymbolInPopup(row_index) {
+        var row = data[row_index];
+        
+        var title = row[idx_TITLE];
+        var yomi = row[idx_YOMI];
+        var ex = row[idx_EX];
+
+        var modal_body = [];
+        
+        modal_body.push('<h2 class="big">' + title.join(', ') + '</h2>');
+        modal_body.push('<p class="big">' + yomi.join(' ') + '</p>');
+        
+        modal_body.push('<ul>');
+        for (var k=0; k < ex.length; k++) {
+            var ex_row = ex[k];
+            
+            var symbol = ex_row[SYMBOL];
+            var jap = ex_row[1];
+            var eng = ex_row[2];
+            
+            modal_body.push('<li class="big">');
+            modal_body.push('<span class="ex_symbol big">' + symbol + '</span>');
+            modal_body.push('<span class="ex_jap big">' + jap + '</span>');
+            modal_body.push('<span class="ex_eng big">' + eng + '</span>');
+            modal_body.push('</li>');
+        }
+        modal_body.push('</ul>');
+
+        document.getElementById('modal_body').innerHTML = modal_body.join('');
+    }
+    
+    function closePopup() {
+        document.getElementById('container_game').style.display = 'none';
+        clearPopup();
+    }
+    
+    function clearPopup() {
+        document.getElementById('modal_body').innerHTML = '';
+        document.getElementById('modal_body_play').innerHTML = '';
     }
     
     show_data();

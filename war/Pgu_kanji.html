@@ -400,6 +400,8 @@
     <div id="container_game" style="display:none;">
         <div id="myModal" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
             <div class="modal-header">
+                <button id="modal_previous" class="btn big">&lt;</button>
+                <button id="modal_next" class="btn big">&gt;</button>
                 <button type="button" class="close big" aria-hidden="true" onclick="closePopup();">×</button>
                 <h3 id="myModalLabel"></h3>
             </div>
@@ -407,8 +409,6 @@
                 <div id="modal_body"></div>
             </div>
             <div class="modal-footer">
-                <button id="modal_previous" class="btn big">&#9668;</button>
-                <button id="modal_next" class="btn big">&#9658;</button>
             </div>
         </div>
         
@@ -416,8 +416,38 @@
     </div>
     
     <script>
+    function showSymbol(row_index) {
+        location.hash = '#' + row_index;
+        showPopup();
+    }
     
-    function showPopup(row_index) {
+    function showPopup() {
+    	
+    	var hash = location.hash;
+    	if (!hash) {
+    		throw {
+    			msg: 'No hash was provided'
+    		}
+    	}
+    	
+    	var str_row_index = hash.substring(1);
+    	var row_index; 
+    	try {
+    		row_index = new Number(str_row_index);
+    	} catch (e) {
+    		throw {
+    			msg: 'Invalid row index: ' + row_index
+    		  , exception: e
+    		}
+    	}
+    	
+    	if (row_index >= data.length
+    			|| row_index < 0) {
+            location.hash = '#0';
+    		showPopup();
+    		return;
+    	}
+    	
         document.getElementById('container_game').style.display = 'inline';
         showSymbolInPopup(row_index);
         
@@ -430,7 +460,7 @@
     	
         document.getElementById('modal_previous').onclick = function() {
         	clearPopup();
-            showPopup(previous_row_index);        	
+        	showSymbol(previous_row_index);
         };
     }
     
@@ -439,7 +469,7 @@
     	
         document.getElementById('modal_next').onclick = function() {
         	clearPopup();
-            showPopup(next_row_index);        	
+        	showSymbol(next_row_index);
         };
     }
     
@@ -665,7 +695,7 @@
     		var card = [];
     		card.push('<article class="well span4 pull-left">');
     		
-    		card.push('<button type="button" class="close" onclick="showPopup(' + i + ');">+</button>');
+    		card.push('<button type="button" class="close" onclick="showSymbol(' + i + ');">+</button>');
     		
 			card.push('<h2>');
 			

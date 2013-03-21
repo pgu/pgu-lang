@@ -23,6 +23,9 @@
         li {
           line-height: 20px;
         }
+        li.big {
+          line-height: 40px;
+        }
         ul {
             margin-left: 0;
             list-style: none;
@@ -42,6 +45,10 @@
         h2 {
             font-size: 31.5px;
             color: #5a5a5a;
+        }
+        h2.big {
+            line-height: 80px;
+            font-size: 63px;
         }
         h3 {
             font-size: 24.5px;
@@ -97,6 +104,9 @@
             color: #D14; /* #48484c */
             margin-right: 10px;
             text-shadow: 0 1px 0 #fff;
+        }
+        .big {
+            font-size: 28px;
         }
         .container-fluid {
           padding-right: 20px;
@@ -433,8 +443,8 @@
 
         var modal_body = [];
         
-        modal_body.push('<h2>' + title.join(', ') + '</h2>');
-        modal_body.push('<p>' + yomi.join(' ') + '</p>');
+        modal_body.push('<h2 class="big">' + title.join(', ') + '</h2>');
+        modal_body.push('<p class="big">' + yomi.join(' ') + '</p>');
         
         modal_body.push('<ul>');
         for (var k=0; k < ex.length; k++) {
@@ -444,10 +454,10 @@
             var jap = ex_row[1];
             var eng = ex_row[2];
             
-            modal_body.push('<li>');
-            modal_body.push('<span class="ex_symbol">' + symbol + '</span>');
-            modal_body.push('<span class="ex_jap">' + jap + '</span>');
-            modal_body.push('<span class="ex_eng">' + eng + '</span>');
+            modal_body.push('<li class="big">');
+            modal_body.push('<span class="ex_symbol big">' + symbol + '</span>');
+            modal_body.push('<span class="ex_jap big">' + jap + '</span>');
+            modal_body.push('<span class="ex_eng big">' + eng + '</span>');
             modal_body.push('</li>');
         }
         modal_body.push('</ul>');

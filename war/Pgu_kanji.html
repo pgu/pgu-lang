@@ -1437,7 +1437,12 @@
     }
     
     function show_symbol(row_index) {
-        location.hash = '#' + row_index; // fires the hashchange event
+    	if ((''+row_index) === (''+get_current_row_index())) {
+    		on_hash_change(); // forces the listener of hashchange
+    		
+    	} else {
+            location.hash = '#' + row_index; // fires the hashchange event
+    	}
     }
 
     function clear_card_of_symbol_in_popup() { document.getElementById('modal_body').innerHTML = ''; }
@@ -1494,7 +1499,10 @@
         }
     }
 
-    window.addEventListener('hashchange', show_popup, false);
+    function on_hash_change() {
+    	show_popup();
+    }
+    window.addEventListener('hashchange', on_hash_change, false);
 
     function update_previous_arrow(row_index) {
         var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;       

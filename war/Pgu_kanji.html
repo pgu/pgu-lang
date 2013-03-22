@@ -1270,7 +1270,7 @@
     ,[['会', 'TO MEET', 'SOCIETY'], ['KAI', 'a(u)'], [['会う', 'au', 'to meet'], ['出会い', 'deai', 'meeting'], ['會社', 'kaisha', 'company'], ['会話', 'kaiwa', 'conversation'], ['会員', 'kaiin', 'employee']]]
     ,[['社', 'COMPANY', 'SOCIETY'], ['SHA', 'JA'], [['社', 'kaisha', 'company'], ['社会', 'shakai', 'society'], ['社長', 'shachō', 'company director'], ['出版社', 'shuppansha', 'publishing company'], ['神社', 'jinja', 'shinto shrine']]]
     ,[['私', 'I', 'PRIVATE'], ['SHI', 'watashi'], [['私', 'watashi', 'I'], ['私学', 'shigaku', 'private school'], ['私立', 'shiritsu', 'private'], ['私語', 'shigo', 'whisper'], ['公私', 'kōshi', 'public and private']]]
-    ,[['高', 'HIGH', 'EXPENSIVE'], ['KŌ', 'taka(i)'], [['高い', 'takai', 'high / expensive'], ['高校', 'kōkō', 'high school'], ['高速', 'kōsoku', 'high speed'], ['最高', 'saikō', 'maximum / the highest'], ['高価', 'kōka', 'expensive']]]
+    ,[['高', 'HIGH', 'EXPENSIVE'], ['KŌ', 'taka(i)'], [['高い', 'takai', 'high, expensive'], ['高校', 'kōkō', 'high school'], ['高速', 'kōsoku', 'high speed'], ['最高', 'saikō', 'maximum, the highest'], ['高価', 'kōka', 'expensive']]]
     ,[['安', 'CHEAP', 'SAFE'], ['AN', 'yasu(i)'], [['安い', 'yasui', 'cheap'], ['安全', 'anzen', 'safety'], ['安定', 'antei', 'stability'], ['安心', 'anshin', 'feel easy'], ['安易', "an'i", 'easy, simple']]]
     ,[['太', 'FAT', 'THICK'], ['TAI', 'futo(i)', 'futo(ru)'], [['太い', 'futoi', 'fat, thick'], ['太る', 'futoru', 'put on weight'], ['太字', 'futoji', 'bold type'], ['太陽', 'taiyō', 'the Sun (star)'], ['太平洋', 'taiheiyō', 'Pacific Ocean']]]
     ,[['春', 'SPRING'], ['SHUN', 'haru'], [['春', 'haru', 'spring'], ['春風', 'harukaze', 'spring wind'], ['青春', 'seishun', 'youth'], ['春分', 'shunbun', 'vernal equinox'], ['売春', 'baishun', 'prostitution']]]
@@ -1423,6 +1423,19 @@
     // Display a single symbol in a popup
     //
     ///////////////////////////////////////////////////////////////////////////////////
+
+    function show(element_id) {
+        var el = document.getElementById(element_id);
+        el.classList.remove('hide');
+        el.classList.add('show');
+    }
+    
+    function hide(element_id) {
+        var el = document.getElementById(element_id);
+        el.classList.remove('show');
+        el.classList.add('hide');
+    }
+    
     function show_symbol(row_index) {
         location.hash = '#' + row_index; // fires the hashchange event
     }
@@ -1440,7 +1453,7 @@
     function close_popup() {
         hide('container_popup');
         clear_content_of_popup();
-        clear_game();
+        reset_game();
     }
     
     function show_popup() {
@@ -1474,13 +1487,11 @@
         update_previous_arrow(row_index);
         update_next_arrow(row_index);
         
-        // TODO
         // if is playing then build game
-//         var isPlaying = document.getElementById('modal_body').classList.contains('hide');
-//         if (isPlaying) {
-//             buildGame();
-//         }
-
+        var is_playing = document.getElementById('modal_body_play').classList.contains('show');
+        if (is_playing) {
+            build_game();
+        }
     }
 
     window.addEventListener('hashchange', show_popup, false);
@@ -1489,7 +1500,9 @@
         var previous_row_index = row_index > 0 ? row_index - 1 : data.length - 1;       
         
         document.getElementById('modal_previous').onclick = function() {
+        	reset_game();
         	clear_content_of_popup();
+        	
             show_symbol(previous_row_index);
         };
     }
@@ -1498,7 +1511,9 @@
         var next_row_index = row_index < data.length -1 ? row_index + 1 : 0;        
         
         document.getElementById('modal_next').onclick = function() {
+        	reset_game();
         	clear_content_of_popup();
+        	
             show_symbol(next_row_index);
         };
     }
@@ -1544,52 +1559,88 @@
         document.getElementById('modal_body').innerHTML = modal_body.join('');
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
     //
-    // game setup
+    // Game on!!
     //
-    pgu_eng_is_found = false;
-    pgu_jap_is_found = false;
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    var Kanji_game = function(row_idx, example_idx, eng_solution, jap_solution) {
+    	
+    	this.row_idx = row_idx;
+    	this.example_idx = example_idx;
+    	
+		this.eng_is_found = false;
+		this.jap_is_found = false;
+
+		// prepare english solutions
+		var eng_solution_without_parentheses = eng_solution.replace(/\(([^)]+)\)/g, "");
+		var eng_solution_clean = eng_solution_without_parentheses.trim();
+		var eng_solutions = eng_solution_clean.split(', ');
+
+		// prepare jap solutions
+	    var jap_solutions = jap_solution.split(' / ');
+        var jap_solutions_without_accents = [];
+        
+        for (var i = 0; i < jap_solutions.length; i++) {
+            var word = jap_solutions[i];
+            word = word.replace(/ā/gi, "a");
+            word = word.replace(/ē/gi, "e");
+            word = word.replace(/ī/gi, "i");
+            word = word.replace(/ō/gi, "o");
+            word = word.replace(/ū/gi, "u");
+            
+            jap_solutions_without_accents.push(word);
+        }
+        
+        var jap_all_solutions = jap_solutions.concat(jap_solutions_without_accents);
+
+        var that = this;
+        
+		this.check_eng_answer = function(value) {
+			that.eng_is_found = that.eng_solutions.indexOf(value) > -1; 
+			return that.eng_is_found; 
+		}
+		
+		this.check_jap_answer = function(value) {
+			that.jap_is_found = that.jap_all_solutions.indexOf(value) > -1; 
+			return that.jap_is_found;
+		}
+		
+		this.are_all_answers_found = function() {
+			return that.eng_is_found && that.jap_is_found; 
+		}
+    };
+
+    current_kanji_game = null;
     
-    function check_eng(solution) {
+    function check_eng_answer() {
     	var input = document.getElementById('eng_input');
     	var value = input.value;
     	
-    	var solutions = solution.split(', ');
-        window.pgu_eng_is_found = solutions.indexOf(value) > -1;		
-        
-        if (window.pgu_eng_is_found) {
+    	var is_correct = window.current_kanji_game.check_eng_answer(value);
+        if (is_correct) {
+        	
             input.classList.add('correct_answer');
             document.getElementById('jap_input').focus();
+            
         } else {
         	input.classList.remove('correct_answer');
         }
-        
+    
         check_all_values();
     }
-    function check_jap(solution) {
+    
+    function check_jap_answer() {
     	var input = document.getElementById('jap_input');
     	var value = input.value;
     	
-    	var solutions = solution.split(' / ');
-    	var solutions_without_accents = [];
-    	for (var i = 0; i < solutions.length; i++) {
-    		
-    		var word = solutions[i];
-    		word = word.replace(/ā/gi, "a");
-    		word = word.replace(/ē/gi, "e");
-    		word = word.replace(/ī/gi, "i");
-    		word = word.replace(/ō/gi, "o");
-    		word = word.replace(/ū/gi, "u");
-    		
-    		solutions_without_accents.push(word);
-    	}
-    	
-    	var all_solutions = solutions.concat(solutions_without_accents);
-    	window.pgu_jap_is_found = all_solutions.indexOf(value) > -1;		
-        
-        if (window.pgu_jap_is_found) {
+    	var is_correct = window.current_kanji_game.check_jap_answer(value);
+        if (is_correct) {
+        	
         	input.classList.add('correct_answer');
             document.getElementById('eng_input').focus();
+            
         } else {
         	input.classList.remove('correct_answer');
         }
@@ -1598,37 +1649,49 @@
     }
     
     function check_all_values() {
-    	if (window.pgu_jap_is_found //
-    			&& window.pgu_eng_is_found) {
-    		document.getElementById('modal_next').onclick();    		
+    	if (window.current_kanji_game.are_all_answers_found()) {
+    		
+            var isModeEasy = document.getElementById('mode_easy').value;
+            if (isModeEasy) {
+            	
+                document.getElementById('modal_next').onclick();    		
+                
+            } else {
+            	
+            	var row_index = window.current_kanji_game.row_idx;
+            	var ex_index = window.current_kanji_game.example_idx;
+            	var next_ex_index = ex_index + 1;
+            	
+            	var row = data[row_index];
+            	var examples = row[idx_EX];
+            	
+            	if (next_ex_index < examples.length - 1) {
+            		
+            		reset_game();
+            		build_game(row_index, next_ex_index);
+            		
+            	} else {
+                    document.getElementById('modal_next').onclick();    		
+            	}
+            }
     	}
     }
     
-    function show(element_id) {
-    	var el = document.getElementById(element_id);
-        el.classList.remove('hide');
-        el.classList.add('show');
-    }
-    
-    function hide(element_id) {
-    	var el = document.getElementById(element_id);
-        el.classList.remove('show');
-        el.classList.add('hide');
-    }
-    
     function togglePlay() {
-        var isNotPlaying = document.getElementById('modal_body').classList.contains('show');
-        
+    	
+        var isNotPlaying = document.getElementById('modal_body_play').classList.contains('hide');
         if (isNotPlaying) {
+        	
             // start playing
             document.getElementById('modal_play').innerHTML = 'stop';
             hide('modal_body');
             show('modal_body_play');
         	show('modal_header_play');
 
-            buildGame();
+            build_game();
             
         } else {
+        	
             // stop playing
             document.getElementById('modal_play').innerHTML = 'play';
             show('modal_body');
@@ -1636,38 +1699,55 @@
         	hide('modal_header_play');
         	
         	// reset game
-            pgu_eng_is_found = false;
-            pgu_jap_is_found = false;
-            document.getElementById('modal_body_play').innerHTML = '';
+        	reset_game();
         }
     }
     
-    function buildGame() {
-        pgu_eng_is_found = false;
-        pgu_jap_is_found = false;
+    function reset_game() {
+    	window.current_kanji_game = null;
+        document.getElementById('modal_body_play').innerHTML = '';
+    }
 
+    function get_current_row_index() {
         var hash = location.hash;
         var str_row_index = hash.substring(1);
-        var row_index = new Number(str_row_index);
-
+        return new Number(str_row_index);
+    }
+    
+    function build_game(row_idx, example_idx) {
+    	
+    	var row_index = row_idx || get_current_row_index();
+    	
+    	if (row_index !== get_current_row_index()) {
+    		throw 'Incoherent state: playing with a symbol which is not the current symbol!';
+    	}
+    	
         var row = data[row_index];
-        var first_ex = row[idx_EX][0];
-        var symbol = first_ex[idx_SYMBOL];
-        var jap = first_ex[idx_JAP].trim();
-        var eng = first_ex[idx_ENG].trim();
+        
+    	var example_index = example_idx || 0; // build a game for the first example by default
+    	
+    	var examples = row[idx_EX];
+    	
+    	if (example_index >= examples.length) {
+    	    throw 'Incoherent state: index of example out of bounds';	
+    	}
+    	
+        var example = examples[example_index];
+    	
+        var symbol = example[idx_SYMBOL];
+        var jap = example[idx_JAP].trim();
+        var eng = example[idx_ENG].trim();
+        
+        window.current_kanji_game = new Kanji_game(row_index, example_idx, eng, jap);
         
         var modal_body_play = [];
         modal_body_play.push('<h2 class="big">' + symbol + '</h2>');
         modal_body_play.push('<p>');
-        modal_body_play.push('<input id="jap_input" class="big input-xxlarge" type="text" placeholder="ichi" onkeyup="check_jap(\'' + jap + '\');" ></input>');
+        modal_body_play.push('<input id="jap_input" class="big input-xxlarge" type="text" placeholder="ichi" onkeyup="check_jap_answer();" ></input>');
         modal_body_play.push('<p>');
-        modal_body_play.push('<input id="eng_input" class="big input-xxlarge" type="text" placeholder="one" onkeyup="check_eng(\'' + eng + '\');" ></input>');
+        modal_body_play.push('<input id="eng_input" class="big input-xxlarge" type="text" placeholder="one" onkeyup="check_eng_answer();" ></input>');
         
         document.getElementById('modal_body_play').innerHTML = modal_body_play.join('');
-    }
-    
-    function clear_game() {
-    	console.log('TODO');
     }
     
     display_all_the_kanjis();

@@ -385,7 +385,7 @@
             width: 100px;
             margin-left: 20px;
         }
-        .correct_answer {
+        input[type="text"].correct_answer {
             color: #468847;
             background-color: #dff0d8;
             border-color: #d6e9c6;
@@ -686,16 +686,19 @@
     	document.getElementById('kanji').innerHTML = cards.join('');
     }
 
-    pgu_eng_is_done = false;
-    pgu_jap_is_done = false;
+    pgu_eng_is_found = false;
+    pgu_jap_is_found = false;
     
     function check_eng(solution) {
     	var input = document.getElementById('eng_input');
     	var value = input.value;
-        pgu_eng_is_done = value === solution;		
+    	
+    	var solutions = solution.split(', ');
+        window.pgu_eng_is_found = solutions.indexOf(value) > -1;		
         
-        if (pgu_eng_is_done) {
-        	input.classList.add('correct_answer');
+        if (window.pgu_eng_is_found) {
+            input.classList.add('correct_answer');
+            document.getElementById('jap_input').focus();
         } else {
         	input.classList.remove('correct_answer');
         }
@@ -705,10 +708,27 @@
     function check_jap(solution) {
     	var input = document.getElementById('jap_input');
     	var value = input.value;
-        pgu_jap_is_done = value === solution;		
+    	
+    	var solutions = solution.split(' / ');
+    	var solutions_without_accents = [];
+    	for (var i = 0; i < solutions.length; i++) {
+    		
+    		var word = solutions[i];
+    		word = word.replace(/ā/gi, "a");
+    		word = word.replace(/ē/gi, "e");
+    		word = word.replace(/ī/gi, "i");
+    		word = word.replace(/ō/gi, "o");
+    		word = word.replace(/ū/gi, "u");
+    		
+    		solutions_without_accents.push(word);
+    	}
+    	
+    	var all_solutions = solutions.concat(solutions_without_accents);
+    	window.pgu_jap_is_found = all_solutions.indexOf(value) > -1;		
         
-        if (pgu_jap_is_done) {
+        if (window.pgu_jap_is_found) {
         	input.classList.add('correct_answer');
+            document.getElementById('eng_input').focus();
         } else {
         	input.classList.remove('correct_answer');
         }
@@ -717,8 +737,8 @@
     }
     
     function check_all_values() {
-    	if (pgu_jap_is_done //
-    			&& pgu_eng_is_done) {
+    	if (window.pgu_jap_is_found //
+    			&& window.pgu_eng_is_found) {
     		document.getElementById('modal_next').onclick();    		
     	}
     }
@@ -741,15 +761,15 @@
             document.getElementById('modal_body_play').style.display = 'none';
 
             // hide game
-            pgu_eng_is_done = false;
-            pgu_jap_is_done = false;
+            pgu_eng_is_found = false;
+            pgu_jap_is_found = false;
             document.getElementById('modal_body_play').innerHTML = '';
         }
     }
     
     function showGame() {
-        pgu_eng_is_done = false;
-        pgu_jap_is_done = false;
+        pgu_eng_is_found = false;
+        pgu_jap_is_found = false;
 
         var hash = location.hash;
         var str_row_index = hash.substring(1);

@@ -853,7 +853,9 @@
 
         var modal_body = [];
         
-        modal_body.push('<h2 class="big">' + title.join(', ') + '</h2>');
+        var tmp_title = [].concat(title);
+        var symbol = tmp_title.shift();
+        modal_body.push('<h2 class="big">' + symbol + '&nbsp;&nbsp;&nbsp;' + tmp_title.join(', ') + '</h2>');
         modal_body.push('<p class="big">' + yomi.join(' ') + '</p>');
         
         modal_body.push('<ul>');

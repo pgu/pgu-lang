@@ -1056,7 +1056,7 @@
         }
         
         .show {
-          display: block;
+          display: inline;
         }
         
         .invisible {
@@ -1160,18 +1160,24 @@
     </div>
     <p></p>
     
-    <div id="container_game" style="display:none;">
+    <div id="container_game" class="hide">
         <div id="myModal" class="modal big hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
             <div class="modal-header">
-                <button id="modal_previous" class="btn big">&lt;</button>
-                <button id="modal_play" class="btn btn-primary big" onclick="togglePlay();">play</button>
-                <button id="modal_next" class="btn big">&gt;</button>
-                <button type="button" class="close big" aria-hidden="true" onclick="closePopup();">×</button>
-                <h3 id="myModalLabel"></h3>
+                <div>
+                    <button id="modal_previous" class="btn big">&lt;</button>
+                    <button id="modal_play" class="btn btn-primary big" onclick="togglePlay();">play</button>
+                    <button id="modal_next" class="btn big">&gt;</button>
+                    <button type="button" class="close big" aria-hidden="true" onclick="closePopup();">×</button>
+                    <h3 id="myModalLabel"></h3>
+                </div>
+                <div id="modal_header_play" class="hide">
+                    <label class="radio inline big"><input type="radio" name="game_mode" id="mode_easy" value="easy" class="big" checked>easy</label>                
+                    <label class="radio inline big"><input type="radio" name="game_mode" id="mode_hard" value="hard" class="big" >hard</label>
+                </div>
             </div>
             <div class="modal-body big">
-                <div id="modal_body" style="display:inline"></div>
-                <div id="modal_body_play" style="display:none"></div>
+                <div id="modal_body" class="show"></div>
+                <div id="modal_body_play" class="hide"></div>
             </div>
             <div class="modal-footer">
             </div>
@@ -1474,31 +1480,45 @@
     	}
     }
     
+    function show(element_id) {
+    	var el = document.getElementById(element_id);
+        el.classList.remove('hide');
+        el.classList.add('show');
+    }
+    
+    function hide(element_id) {
+    	var el = document.getElementById(element_id);
+        el.classList.remove('show');
+        el.classList.add('hide');
+    }
+    
     function togglePlay() {
-        var isNotPlaying = document.getElementById('modal_body').style.display === 'inline';
+        var isNotPlaying = document.getElementById('modal_body').classList.contains('show');
         
         if (isNotPlaying) {
             // start playing
             document.getElementById('modal_play').innerHTML = 'stop';
-            document.getElementById('modal_body').style.display = 'none';
-            document.getElementById('modal_body_play').style.display = 'inline';
+            hide('modal_body');
+            show('modal_body_play');
+        	show('modal_header_play');
 
-            showGame();
+            buildGame();
             
         } else {
             // stop playing
             document.getElementById('modal_play').innerHTML = 'play';
-            document.getElementById('modal_body').style.display = 'inline';
-            document.getElementById('modal_body_play').style.display = 'none';
-
-            // hide game
+            show('modal_body');
+            hide('modal_body_play');
+        	hide('modal_header_play');
+        	
+        	// reset game
             pgu_eng_is_found = false;
             pgu_jap_is_found = false;
             document.getElementById('modal_body_play').innerHTML = '';
         }
     }
     
-    function showGame() {
+    function buildGame() {
         pgu_eng_is_found = false;
         pgu_jap_is_found = false;
 
@@ -1518,10 +1538,7 @@
         modal_body_play.push('<input id="jap_input" class="big input-xxlarge" type="text" placeholder="ichi" onkeyup="check_jap(\'' + jap + '\');" ></input>');
         modal_body_play.push('<p>');
         modal_body_play.push('<input id="eng_input" class="big input-xxlarge" type="text" placeholder="one" onkeyup="check_eng(\'' + eng + '\');" ></input>');
-        modal_body_play.push('<p>');
-        modal_body_play.push('<label class="radio inline big"><input type="radio" name="game_mode" id="mode_easy" value="easy" class="big" checked>easy</label>');
-        modal_body_play.push('<label class="radio inline big"><input type="radio" name="game_mode" id="mode_hard" value="hard" class="big" >hard</label>');
-
+        
         document.getElementById('modal_body_play').innerHTML = modal_body_play.join('');
     }
     
@@ -1547,7 +1564,7 @@
             return;
         }
         
-        document.getElementById('container_game').style.display = 'inline';
+        show('container_game');
         showSymbolInPopup(row_index);
         
         updatePreviousArrow(row_index);
@@ -1610,14 +1627,14 @@
 
         document.getElementById('modal_body').innerHTML = modal_body.join('');
         
-        var isPlaying = document.getElementById('modal_body').style.display === 'none';
+        var isPlaying = document.getElementById('modal_body').classList.contains('hide');
         if (isPlaying) {
-        	showGame();
+        	buildGame();
         }
     }
     
     function closePopup() {
-        document.getElementById('container_game').style.display = 'none';
+    	hide('container_game');
         clearPopup();
     }
     

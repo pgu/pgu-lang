@@ -1,6 +1,6 @@
-Stuff about languages...
+Games with languages...
 ========================
 
-* Alphabets game
-* Kanji game
+* Alphabets
+* Kanji (160)
 

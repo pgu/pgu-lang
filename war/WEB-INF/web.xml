@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
   <welcome-file-list>
-    <welcome-file>Pgu_jeu.html</welcome-file>
+    <welcome-file>Pgu_lang.html</welcome-file>
   </welcome-file-list>
 
   <servlet>
     <servlet-name>download</servlet-name>
-    <servlet-class>pgu.jeu.server.DownloadServlet</servlet-class>
+    <servlet-class>pgu.lang.server.DownloadServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>

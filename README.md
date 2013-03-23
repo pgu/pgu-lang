@@ -1,6 +1,6 @@
 Stuff about languages...
 ========================
 
-* alphabets game
+* Alphabets game
 * Kanji game
 

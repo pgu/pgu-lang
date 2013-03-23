@@ -6,11 +6,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta name="description" content="Languages games">
+    <meta name="author" content="PGU">    
     
 <!--     <link type="text/css" rel="stylesheet" href="Pgu_lang.css"> -->
 <!--     <script type="text/javascript" language="javascript" src="pgu_lang/pgu_lang.nocache.js"></script> -->
 
     <style>
+    /* GLOBAL STYLES
+    -------------------------------------------------- */
+    /* Padding below the footer and lighter body text */
+
+    body {
+      padding-bottom: 40px;
+      color: #5a5a5a;
+    }    
+    
+    /* CUSTOMIZE THE CAROUSEL
+    -------------------------------------------------- */
+
+    /* Carousel base class */
+    .carousel {
+      margin-bottom: 60px;
+    }
+
+    .carousel .container {
+      position: relative;
+      z-index: 9;
+    }
+
+    .carousel-control {
+      height: 80px;
+      margin-top: 0;
+      font-size: 120px;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+      background-color: transparent;
+      border: 0;
+      z-index: 10;
+    }
+
+    .carousel .item {
+      height: 500px;
+    }
+    .carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      height: 500px;
+    }
+
+    .carousel-caption {
+      background-color: transparent;
+      position: static;
+      max-width: 550px;
+      padding: 0 20px;
+      margin-top: 200px;
+    }
+    .carousel-caption h1,
+    .carousel-caption .lead {
+      margin: 0;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+    .carousel-caption .btn {
+      margin-top: 10px;
+    }
+
+    /* RESPONSIVE CSS
+    -------------------------------------------------- */
+
+    @media (max-width: 979px) {
+
+      .carousel .item {
+        height: 500px;
+      }
+      .carousel img {
+        width: auto;
+        height: 500px;
+      }
+    }    
+    
+    @media (max-width: 767px) {
+
+      .carousel {
+        margin-left: -20px;
+        margin-right: -20px;
+      }
+      .carousel .container {
+
+      }
+      .carousel .item {
+        height: 300px;
+      }
+      .carousel img {
+        height: 300px;
+      }
+      .carousel-caption {
+        width: 65%;
+        padding: 0 70px;
+        margin-top: 100px;
+      }
+      .carousel-caption h1 {
+        font-size: 30px;
+      }
+      .carousel-caption .lead,
+      .carousel-caption .btn {
+        font-size: 18px;
+      }
+
+    }    
+    
     </style>
 
   </head>
@@ -26,8 +133,38 @@
       </div>
     </noscript>
 
-    <a href="Pgu_jeu.html">alphabets</a>
-    <a href="Pgu_kanji.html">kanji</a>
+    <div id="myCarousel" class="carousel slide">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+      </ol>
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <div class="active item">
+            <img src="pgu/img/alphabets_for_carousel.jpg" alt="alphabets">
+            <div class="container">
+                <div class="carousel-caption">
+                  <h1>Game for learning alphabets</h1>
+                  <p class="lead">For now, we have Hiragana, Katakana, Arabic, Russian and Korean.</p>
+                  <a class="btn btn-large btn-primary" href="Pgu_jeu.html">Let's play!</a>
+                </div>
+             </div>
+        </div>
+        <div class="item">
+            <img src="pgu/img/kanji_for_carousel.jpg" alt="kanji">
+            <div class="container">
+                <div class="carousel-caption">
+                  <h1>Game for learning Kanji</h1>
+                  <p class="lead">For now, we have 160 Kanji.</p>
+                  <a class="btn btn-large btn-primary" href="Pgu_kanji.html">Let's play!</a>
+                </div>
+             </div>
+        </div>
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>    

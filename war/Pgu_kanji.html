@@ -1607,20 +1607,21 @@
     	    
     	    var jap_solutions_lowercase = [];
             var jap_solutions_without_accents = [];
+            var jap_solutions_with_u = [];
             
             for (var i = 0; i < jap_solutions.length; i++) {
-                var word = jap_solutions[i];
-                word = word.replace(/ā/gi, "a");
-                word = word.replace(/ē/gi, "e");
-                word = word.replace(/ī/gi, "i");
-                word = word.replace(/ō/gi, "o");
-                word = word.replace(/ū/gi, "u");
                 
-                jap_solutions_without_accents.push(word.trim().toLowerCase());
-                jap_solutions_lowercase.push(jap_solutions[i].trim().toLowerCase());
+                var solution = jap_solutions[i].trim().toLowerCase();
+                jap_solutions_lowercase.push(solution);
+                
+                var sol_wo_accent = solution.replace(/ō/gi, "o").replace(/ū/gi, "u");
+                jap_solutions_without_accents.push(sol_wo_accent);
+                
+                var sol_with_u = solution.replace(/ō/gi, "ou").replace(/ū/gi, "uu");
+                jap_solutions_with_u.push(sol_with_u);
             }
 
-            return jap_solutions_lowercase.concat(jap_solutions_without_accents);
+            return jap_solutions_lowercase.concat(jap_solutions_without_accents).concat(jap_solutions_with_u);
 		};
 		
         this.jap_all_solutions = build_jap_solutions(jap_solution);

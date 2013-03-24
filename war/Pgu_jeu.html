@@ -262,7 +262,17 @@
       var result = input.value;
       console.log(result);
     
-      if (result === current_let) {
+      var symbol_is_found = false;
+      
+      if (current_let.indexOf(' ') > -1) {
+          var solutions = current_let.split(' ');
+          symbol_is_found = solutions.indexOf(result) > -1;
+          
+      } else {
+          symbol_is_found = result === current_let; 
+      }
+      
+      if (symbol_is_found) {
         input.value = '';
         play_next_symbol();
       }

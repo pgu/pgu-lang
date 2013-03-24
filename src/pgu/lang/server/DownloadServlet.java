@@ -17,10 +17,25 @@ public class DownloadServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setContentType("text/html");
-        resp.setHeader("Content-disposition", "attachment; filename=Pgu_jeu.html");
+        final String code = parseCode(req);
+        String fileName;
 
-        final String fileUrl = "http://pgu-jeu.appspot.com/Pgu_jeu.html";
+        if ("kanji".equals(code)) {
+            fileName = "Pgu_kanji.html";
+
+        } else if ("alphabets".equals(code)) {
+            fileName = "Pgu_jeu.html";
+
+        } else {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+
+        resp.setContentType("text/html");
+        resp.setHeader("Content-disposition", "attachment; filename=" + fileName);
+
+        final String fileUrl = "http://pgu-lang.appspot.com/" + fileName;
 
         final URL url = new URL(fileUrl);
 
@@ -36,6 +51,14 @@ public class DownloadServlet extends HttpServlet {
         scanner.close();
         bw.close();
 
+    }
+
+    private String parseCode(final HttpServletRequest req) {
+
+        final String pathInfo = req.getPathInfo();
+        final int lastSlash = pathInfo.lastIndexOf("/");
+
+        return pathInfo.substring(lastSlash + "/".length());
     }
 
 }

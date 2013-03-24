@@ -11,7 +11,7 @@
   
   <servlet-mapping>
     <servlet-name>download</servlet-name>
-    <url-pattern>/download</url-pattern>
+    <url-pattern>/download/*</url-pattern>
   </servlet-mapping>
   
   <servlet>

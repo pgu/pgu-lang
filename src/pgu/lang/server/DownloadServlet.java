@@ -31,7 +31,8 @@ public class DownloadServlet extends HttpServlet {
             return;
         }
 
-
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json; charset=UTF-8");
         resp.setContentType("text/html");
         resp.setHeader("Content-disposition", "attachment; filename=" + fileName);
 

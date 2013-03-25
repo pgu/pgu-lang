@@ -1114,15 +1114,13 @@
       .sym {
         text-align: center;
         font-size: 48px;
+        line-height: 60px;
       }
-      .left_f {
-        float: left;
-      }
-      .symbols_table {
-        margin-left: 10px;
-        margin-top: 10px;
-        background-color: whiteSmoke;
-      }
+/*       .symbols_table { */
+/*         margin-left: 10px; */
+/*         margin-top: 10px; */
+/*         background-color: whiteSmoke; */
+/*       } */
     
       .symbol {
         float: left;
@@ -1185,12 +1183,13 @@
           </div>
         
         <p></p>
-        <table id="current_table" class="symbols_table"></table>
+        <table id="current_table" class="well"></table>
          
         <p></p>
-        <div id="tables"></div>
+        <div class="clearfix">
+            <div id="tables"></div>
+        </div>
         
-        <div class="clearfix"></div>
         <p></p>
     </div>
     
@@ -1515,7 +1514,7 @@
     	
     	var new_table = document.createElement('div');
     	new_table.innerHTML = 
-    		[  '<table id="' + game_id + '" class="left_f symbols_table">'
+    		[  '<table id="' + game_id + '" class="pull-left well span5">'
     	     , rows.join('')
     	     , '</table>'
     	    ].join('');

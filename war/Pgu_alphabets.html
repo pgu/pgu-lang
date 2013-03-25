@@ -1069,7 +1069,11 @@
         /***********************************************************************/
         /*                             CUSTOM                                  */
         /***********************************************************************/
-
+        .container {
+            width:800px;
+            margin-left:auto;
+            margin-right:auto;        
+        }
         .big {
             font-size: 42px;
             line-height: 60px;
@@ -1159,36 +1163,37 @@
 <!-- ------------------------------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------------------------------ -->
 
-    <div class="container-fluid" style="width:95%;">
-        <p></p>
-        <div style="margin-bottom: 30px;margin-top: 20px;">
-            <label class="radio inline medium"><input type="radio" name="game" id="game_hiragana" value="hiragana" checked>Hiragana</label>
-            <label class="radio inline medium"><input type="radio" name="game" id="game_katakana" value="katakana">Katakana</label>
-            <label class="radio inline medium"><input type="radio" name="game" id="game_korean" value="korean">Korean</label>
-            <label class="radio inline medium"><input type="radio" name="game" id="game_russian" value="russian">Russian</label>
-            <label class="radio inline medium"><input type="radio" name="game" id="game_arabic" value="arabic">Arabic</label>
-            <label class="radio inline medium"><input type="radio" name="game" id="game_full_arabic" value="full_arabic">Full arabic</label>
-        
-            <button class="btn btn-primary big" onclick="play_game();">Play</button>      
+    <div class="container-fluid">
+        <div class="container">
+            <div style="margin-bottom: 30px;margin-top: 20px;">
+                <label class="radio inline medium"><input type="radio" name="game" id="game_hiragana" value="hiragana" checked>Hiragana</label>
+                <label class="radio inline medium"><input type="radio" name="game" id="game_katakana" value="katakana">Katakana</label>
+                <label class="radio inline medium"><input type="radio" name="game" id="game_korean" value="korean">Korean</label>
+                <label class="radio inline medium"><input type="radio" name="game" id="game_russian" value="russian">Russian</label>
+                <label class="radio inline medium"><input type="radio" name="game" id="game_arabic" value="arabic">Arabic</label>
+                <label class="radio inline medium"><input type="radio" name="game" id="game_full_arabic" value="full_arabic">Full arabic</label>
+            
+                <button class="btn btn-primary big" onclick="play_game();">Play</button>      
+            </div>
+              
+            <p></p>
+            <div id="guess_symbol" class="well"></div>
+              <div style="width:30%;margin: 0 auto;">
+              <input id="guess_result" class="big" style="width:100%" type="text" onkeyup="check_result(this);"></input>
+            </div>
+            
+            <p></p>
+              <div id="help_panel">
+                <div id="question_mark" class="big" onclick="click_help();">?</div>
+                <div id="letter_solution" style="display:none;text-align:center;"></div>
+              </div>
+              
+            <p></p>
+              <div id="end_of_game" style="display:none;">
+                <div class="big" style="text-align:center;">Done!</div>
+                <div id="elapsed_time" class="big" style="text-align:center;"></div>
+              </div>
         </div>
-          
-        <p></p>
-        <div id="guess_symbol" class="well"></div>
-          <div style="width:30%;margin: 0 auto;">
-          <input id="guess_result" class="big" style="width:100%" type="text" onkeyup="check_result(this);"></input>
-        </div>
-        
-        <p></p>
-          <div id="help_panel">
-            <div id="question_mark" class="big" onclick="click_help();">?</div>
-            <div id="letter_solution" style="display:none;text-align:center;"></div>
-          </div>
-          
-        <p></p>
-          <div id="end_of_game" style="display:none;">
-            <div class="big" style="text-align:center;">Done!</div>
-            <div id="elapsed_time" class="big" style="text-align:center;"></div>
-          </div>
         
         <p></p>
         <table id="current_table" class="well" style="margin-top:30px;"></table>

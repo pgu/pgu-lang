@@ -1177,7 +1177,7 @@
             </div>
               
             <p></p>
-            <div id="guess_symbol" class="well"></div>
+              <div id="guess_symbol" class="well"></div>
               <div style="width:30%;margin: 0 auto;">
               <input id="guess_result" class="big" style="width:100%" type="text" onkeyup="check_result(this);"></input>
             </div>
@@ -1383,6 +1383,7 @@
       document.getElementById('elapsed_time').innerHTML = fmt_time;
       document.getElementById('end_of_game').style.display = 'block';
       document.getElementById('help_panel').style.display = 'none';
+      document.getElementById('guess_result').style.display = 'none';
     }
     
     function play_next_symbol() {
@@ -1478,6 +1479,7 @@
       
       document.getElementById('help_panel').style.display = 'block';
       
+      document.getElementById('guess_result').style.display = 'inline';
       document.getElementById('guess_result').focus();
       
       copy_game_to_arrays();

@@ -1070,11 +1070,6 @@
         /*                             CUSTOM                                  */
         /***********************************************************************/
 
-/*       body { */
-/*         padding-top: 10px; */
-/*         padding-left: 20px; */
-/*       } */
-
         .big {
             font-size: 42px;
             line-height: 60px;
@@ -1087,12 +1082,11 @@
             font-size: 24px;
             line-height: 30px;
             margin-right: 40px;
+            margin-bottom: 40px !important;
         }
 
         #guess_result {
             height: 60px;
-/*             font-size: 42px; */
-/*             line-height: 60px; */
         }
        #guess_symbol {
          font-size: 144px;
@@ -1108,7 +1102,7 @@
         
         width: 60px;
         margin: 0 auto;
-        margin-bottom: 60px;
+        margin-bottom: 20px;
         
         /*border-radius*/
         -webkit-border-radius:50px;
@@ -1165,9 +1159,9 @@
 <!-- ------------------------------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------------------------------ -->
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="width:95%;">
         <p></p>
-        <div style="margin-bottom: 30px;margin-top: 20px">
+        <div style="margin-bottom: 30px;margin-top: 20px;">
             <label class="radio inline medium"><input type="radio" name="game" id="game_hiragana" value="hiragana" checked>Hiragana</label>
             <label class="radio inline medium"><input type="radio" name="game" id="game_katakana" value="katakana">Katakana</label>
             <label class="radio inline medium"><input type="radio" name="game" id="game_korean" value="korean">Korean</label>
@@ -1191,13 +1185,13 @@
           </div>
           
         <p></p>
-          <div id="end_of_game" style="display:none;width:200px;">
-            <div style="text-align:center;">Done!</div>
-            <div id="elapsed_time" style="text-align:center;"></div>
+          <div id="end_of_game" style="display:none;">
+            <div class="big" style="text-align:center;">Done!</div>
+            <div id="elapsed_time" class="big" style="text-align:center;"></div>
           </div>
         
         <p></p>
-        <table id="current_table" class="well"></table>
+        <table id="current_table" class="well" style="margin-top:30px;"></table>
          
         <p></p>
         <div class="clearfix">

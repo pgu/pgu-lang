@@ -1075,6 +1075,25 @@
 /*         padding-left: 20px; */
 /*       } */
 
+        .big {
+            font-size: 42px;
+            line-height: 60px;
+        }
+        input[type="text"].big {
+            font-size: 42px;
+            line-height: 60px;
+        }
+        .medium {
+            font-size: 24px;
+            line-height: 30px;
+            margin-right: 40px;
+        }
+
+        #guess_result {
+            height: 60px;
+/*             font-size: 42px; */
+/*             line-height: 60px; */
+        }
        #guess_symbol {
          font-size: 144px;
          line-height: 180px;
@@ -1082,16 +1101,14 @@
        } 
       
       #question_mark {
-         font-size: 42px;
-         line-height: 60px;
-         
+        text-align:center;
         background-color: whitesmoke;
         color: lightgrey;
         cursor: pointer;
         
         width: 60px;
         margin: 0 auto;
-        margin-bottom: 30px;
+        margin-bottom: 60px;
         
         /*border-radius*/
         -webkit-border-radius:50px;
@@ -1150,28 +1167,26 @@
 
     <div class="container-fluid">
         <p></p>
-          <label class="radio inline"><input type="radio" name="game" id="game_hiragana" value="hiragana" checked>Hiragana</label>
-          <label class="radio inline"><input type="radio" name="game" id="game_katakana" value="katakana">Katakana</label>
-          <label class="radio inline"><input type="radio" name="game" id="game_korean" value="korean">Korean</label>
-          <label class="radio inline"><input type="radio" name="game" id="game_russian" value="russian">Russian</label>
-          <label class="radio inline"><input type="radio" name="game" id="game_arabic" value="arabic">Arabic</label>
-          <label class="radio inline"><input type="radio" name="game" id="game_full_arabic" value="full_arabic">Full arabic</label>
-    
-          <button class="btn btn-primary" onclick="play_game();">Play</button>      
+        <div style="margin-bottom: 30px;margin-top: 20px">
+            <label class="radio inline medium"><input type="radio" name="game" id="game_hiragana" value="hiragana" checked>Hiragana</label>
+            <label class="radio inline medium"><input type="radio" name="game" id="game_katakana" value="katakana">Katakana</label>
+            <label class="radio inline medium"><input type="radio" name="game" id="game_korean" value="korean">Korean</label>
+            <label class="radio inline medium"><input type="radio" name="game" id="game_russian" value="russian">Russian</label>
+            <label class="radio inline medium"><input type="radio" name="game" id="game_arabic" value="arabic">Arabic</label>
+            <label class="radio inline medium"><input type="radio" name="game" id="game_full_arabic" value="full_arabic">Full arabic</label>
+        
+            <button class="btn btn-primary big" onclick="play_game();">Play</button>      
+        </div>
           
         <p></p>
-         <div style="width:200px">
-           <div id="guess_symbol" class="well"></div>
-           <div>
-               <div style="width:100px;margin: 0 auto;">
-                 <input id="guess_result" style="width:100%" type="text" onkeyup="check_result(this);"></input>
-               </div>
-           </div>
-         </div>
+        <div id="guess_symbol" class="well"></div>
+          <div style="width:30%;margin: 0 auto;">
+          <input id="guess_result" class="big" style="width:100%" type="text" onkeyup="check_result(this);"></input>
+        </div>
         
         <p></p>
-          <div id="help_panel" style="width:200px;">
-            <div id="question_mark" style="display:block;text-align:center;" onclick="click_help();">?</div>
+          <div id="help_panel">
+            <div id="question_mark" class="big" onclick="click_help();">?</div>
             <div id="letter_solution" style="display:none;text-align:center;"></div>
           </div>
           

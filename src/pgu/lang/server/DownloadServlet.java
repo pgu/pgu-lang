@@ -24,7 +24,7 @@ public class DownloadServlet extends HttpServlet {
             fileName = "Pgu_kanji.html";
 
         } else if ("alphabets".equals(code)) {
-            fileName = "Pgu_jeu.html";
+            fileName = "Pgu_alphabets.html";
 
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);

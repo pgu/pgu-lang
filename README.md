@@ -34,6 +34,8 @@
 	<h3>Website</h3>
 	<a href="http://pgu-lang.appspot.com/" target="_blank" ><strong>&#8594; Play!</strong></a>
 </p>
-
+<p>
+Note that the style is done for use on a mobile phone.
+</p>
 </body>
 </html>

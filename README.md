@@ -1,41 +1,32 @@
-<html>
-<head></head>
-<body>
+Purpose
+---
 
-<p>
-  <h3>Purpose</h3>
-  Games with alphabets and a translation service to help learning other languages.
-</p>
-<p>
-<h3>Current symbols</h3>
-<ul>
-<li>Japanese
-<ul>
-<li>Hiragana あ お い う え...</li>
-<li>Katakana ア オ イ ウ エ...</li>
-<li>Kanji 日 月 火 水 木 金 土...</li>
-</ul>
-</li>
-<li>Korean ㄱ ㄴ ㄷ ㄹ ㅁ...</li>
-<li>Russian Б Г Д Ж Ф...</li>
-<li>Arabic ﺏ ﺥ ﺱ ﻁ ﻑ ﻙ...</li>
-</ul>
+Games with alphabets and a translation service to help learning other languages.
 
-</p>
-<p>
-<h3>Technologies</h3>
-<ul>
-<li>Bootstrap</li>
-<li>GWT</li>
-<li>Javascript</li>
-</ul>
-</p>
-<p>
-	<h3>Website</h3>
-	<a href="http://pgu-lang.appspot.com/" target="_blank" ><strong>&#8594; Play!</strong></a>
-</p>
-<p>
+Current symbols
+---
+
+- Japanese
+ - Hiragana あ お い う え...
+ - Katakana ア オ イ ウ エ...
+ - Kanji 日 月 火 水 木 金 土...
+- Korean ㄱ ㄴ ㄷ ㄹ ㅁ...
+- Russian Б Г Д Ж Ф...
+- Arabic ﺏ ﺥ ﺱ ﻁ ﻑ ﻙ...
+
+Technologies
+---
+- [Bootstrap]
+- [GWT]
+- Javascript
+
+Website
+---
+[**&#8594; Play!**] [pgu_lang]
+
+
 Note that the style is done for use on a mobile phone.
-</p>
-</body>
-</html>
+
+[pgu_lang]: http://pgu-lang.appspot.com/
+[Bootstrap]: http://twitter.github.io/bootstrap/index.html
+[GWT]: https://developers.google.com/web-toolkit/

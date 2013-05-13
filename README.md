@@ -3,6 +3,10 @@ Purpose
 
 Games with alphabets and a translation service to help learning other languages.
 
+Website
+---
+[**&#8594; Play!**] [pgu_lang]
+
 Current symbols
 ---
 
@@ -19,10 +23,6 @@ Technologies
 - [Bootstrap]
 - [GWT]
 - Javascript
-
-Website
----
-[**&#8594; Play!**] [pgu_lang]
 
 
 Note that the style is done for use on a mobile phone.
